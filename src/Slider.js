@@ -20,7 +20,7 @@ const Slider = React.forwardRef((props, constraintsRef) => {
             variants={variants}
             whileTap="getBig"
         >
-        This is the slider!
+        0
         </motion.div>
     )
 })

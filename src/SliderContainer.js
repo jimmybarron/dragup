@@ -10,7 +10,7 @@ const SliderContainer = () => {
             ref={constraintsRef}
             style={{
                 width: "150px",
-                height: "85vw",
+                height: "100vh",
                 display: "flex",
                 alignItems: "flex-end"
             }}>
