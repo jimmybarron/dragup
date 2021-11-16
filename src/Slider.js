@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Slider.css';
 import { motion } from 'framer-motion'
 
@@ -8,19 +8,31 @@ const variants = {
     }
 }
 
-const Slider = React.forwardRef((props, constraintsRef) => {
+
+const Slider = React.forwardRef((props, sliderContainerRef) => {
+
+    const [maxHeight, setMaxHeight] = useState(0)
+    
     return (
         <motion.div
+            className="button"
             drag
-            dragConstraints={constraintsRef}
+            dragConstraints={sliderContainerRef}
             dragElastic={0.01}
             dragSnapToOrigin={true}
             dragTransition={{ type: "spring", duration: "0.2", bounce: "0.4" }}
-            className="button"
+            onDragStart={(event, info) => {
+                setMaxHeight(sliderContainerRef.current.offsetHeight)
+            }}
+            onDrag={(event, info) => {
+                props.setDragNum(Math.ceil(Math.abs((info.offset.y / maxHeight) * 10)))
+                console.log(info);
+            }}
+            onDragEnd={(event, info) => {}}
             variants={variants}
             whileTap="getBig"
         >
-        0
+        { props.dragNum }
         </motion.div>
     )
 })
