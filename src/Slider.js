@@ -16,6 +16,7 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
     return (
         <motion.div
             className="button"
+            style={{ zIndex: '10' }}
             drag
             dragConstraints={sliderContainerRef}
             dragElastic={0.01}
@@ -26,12 +27,13 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
             }}
             onDrag={(event, info) => {
                 props.setDragNum(Math.ceil(Math.abs((info.offset.y / maxHeight) * 10)))
-                console.log(info);
             }}
-            onDragEnd={(event, info) => {}}
+            onDragEnd={(event, info) => {
+                props.setCountdownNum(props.dragNum)
+                props.setDragNum(0)
+            }}
             variants={variants}
-            whileTap="getBig"
-        >
+            whileTap="getBig">
         { props.dragNum }
         </motion.div>
     )

@@ -6,11 +6,16 @@ import SliderContainer from './SliderContainer';
 function App() {
 
   const [dragNum, setDragNum] = useState(0)
+  const [countdownNum, setCountdownNum] = useState(0)
 
     return (
         <div className="App">
-            <Countdown dragNum={dragNum} />
-            <SliderContainer dragNum={dragNum} setDragNum={setDragNum} />
+            <Countdown countdownNum={countdownNum} />
+            <SliderContainer
+                dragNum={dragNum}
+                setDragNum={setDragNum}
+                setCountdownNum={setCountdownNum}
+            />
         </div>
     );  
 }
