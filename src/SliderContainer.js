@@ -24,12 +24,11 @@ const SliderContainer = props => {
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
                 style={{
-                    display: "flex",
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end',
                     overflow: "visible",
                     position: "absolute",
+                    transformOrigin: "bottom center",
                     height: "90%",
+                    marginTop: "20%",
             }}>
 
                 <svg>

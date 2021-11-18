@@ -8,6 +8,7 @@ const variants = {
     }
 }
 
+const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
 
 const Slider = React.forwardRef((props, sliderContainerRef) => {
 
@@ -26,7 +27,7 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
                 setMaxHeight(sliderContainerRef.current.offsetHeight)
             }}
             onDrag={(event, info) => {
-                props.setDragNum(Math.ceil(Math.abs((info.offset.y / maxHeight) * 10)))
+                props.setDragNum(clamp(Math.ceil(Math.abs((info.offset.y / maxHeight) * 10)), 0, 9))
             }}
             onDragEnd={(event, info) => {
                 props.setCountdownNum(props.dragNum)
