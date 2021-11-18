@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './Slider.css';
 import { motion } from 'framer-motion'
 
@@ -33,8 +33,11 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
                 props.setDragNum(0)
             }}
             variants={variants}
-            whileTap="getBig">
+            whileTap="getBig"
+        >
+
         { props.dragNum }
+        
         </motion.div>
     )
 })

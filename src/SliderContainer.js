@@ -15,19 +15,67 @@ const SliderContainer = props => {
                 position: 'relative',
                 width: "150px",
                 height: "90vh",
-            }}>
+                overflow: "visible",
+        }}>
             
             <svg
-                height="100%"
+                className="indicators"
                 width="100%"
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
                 style={{
-                    position: 'absolute',
+                    display: "flex",
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    overflow: "visible",
+                    position: "absolute",
+                    height: "90%",
             }}>
+
                 <svg>
-                    <line x1="50%" x2="50%" y1="10%" y2="90%" stroke="#666" stroke-width="2"/>
+                    <line x1="50%" x2="50%" y1="0%" y2="100%" stroke="#666" strokeWidth="2"/>
                 </svg>
+
+                <svg style={{overflow: 'visible'}}>
+                    <circle cx="50%" cy="0%" r="3" fill="#666"/>
+                </svg>
+
+                <svg>
+                    <circle cx="50%" cy="11.1%" r="3" fill="#666"/>
+                </svg>
+
+                <svg>
+                    <circle cx="50%" cy="22.2%" r="3" fill="#666"/>
+                </svg>
+
+                <svg>
+                    <circle cx="50%" cy="33.3%" r="3" fill="#666"/>
+                </svg>
+
+                <svg>
+                    <circle cx="50%" cy="44.4%" r="3" fill="#666"/>
+                </svg>
+
+                <svg>
+                    <circle cx="50%" cy="55.5%" r="3" fill="#666"/>
+                </svg>
+
+                <svg>
+                    <circle cx="50%" cy="66.6%" r="3" fill="#666"/>
+                </svg>
+
+                <svg>
+                    <circle cx="50%" cy="77.7%" r="3" fill="#666"/>
+                </svg>
+
+                <svg>
+                    <circle cx="50%" cy="88.8%" r="3" fill="#666"/>
+                </svg>
+
+                <svg style={{overflow: 'visible'}}>
+                    <circle cx="50%" cy="100%" r="3" fill="#666"/>
+                </svg>
+
             </svg>
 
             <div
@@ -40,21 +88,16 @@ const SliderContainer = props => {
                     position: 'relative',
                     width: "150px",
                     height: "90vh",
-                }}>
+            }}>
     
                 <Slider
                     ref={sliderContainerRef}
                     dragNum={props.dragNum}
                     setDragNum={props.setDragNum}
-                    setCountdownNum={props.setCountdownNum}/>
+                    setCountdownNum={props.setCountdownNum}
+                />
             
             </div>
-    
-            {/* <div>
-                <svg>
-                    <circle cx="50%" cy="2%" r="10" fill="#666"/>
-                </svg>
-            </div> */}
 
         </div>
         
