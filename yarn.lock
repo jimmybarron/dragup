@@ -4418,6 +4418,16 @@
     "readable-stream" "^2.0.0"
     "stream-shift" "^1.0.0"
 
+"easytimer-react-hook@^1.0.3":
+  "integrity" "sha512-E5fw5zGNYQu/GOnlKtdBDcjwp4muKBCOCOKAKLqoMWZLsaKD8awf4eAJjdJictmjxi1eo11CS/4LTVHgg+4TMQ=="
+  "resolved" "https://registry.npmjs.org/easytimer-react-hook/-/easytimer-react-hook-1.0.3.tgz"
+  "version" "1.0.3"
+
+"easytimer.js@^4.5.1":
+  "integrity" "sha512-m+ZVLeBevBhUqw6kghBMnXHSIH+N1VFcwj2cP5zJ+ovbXLR0mWddDj9n1VwmJGpHMbOjLuBfq3j4l/gJ/lvdRQ=="
+  "resolved" "https://registry.npmjs.org/easytimer.js/-/easytimer.js-4.5.1.tgz"
+  "version" "4.5.1"
+
 "ecc-jsbn@~0.1.1":
   "integrity" "sha1-OoOpBOVDUyh4dMVkt1SThoSamMk="
   "resolved" "https://registry.npmjs.org/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz"

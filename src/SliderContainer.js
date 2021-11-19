@@ -92,8 +92,8 @@ const SliderContainer = props => {
                 <Slider
                     ref={sliderContainerRef}
                     dragNum={props.dragNum}
-                    setDragNum={props.setDragNum}
-                    setCountdownNum={props.setCountdownNum}
+                    onDrag={props.onDrag}
+                    onDragEnd={props.onDragEnd}
                 />
             
             </div>

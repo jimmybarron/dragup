@@ -13,8 +13,8 @@ function App() {
             <Countdown countdownNum={countdownNum} />
             <SliderContainer
                 dragNum={dragNum}
-                setDragNum={setDragNum}
-                setCountdownNum={setCountdownNum}
+                onDrag={setDragNum}
+                onDragEnd={setCountdownNum}
             />
         </div>
     );  

@@ -38,6 +38,8 @@
     ]
   },
   "devDependencies": {
+    "easytimer-react-hook": "^1.0.3",
+    "easytimer.js": "^4.5.1",
     "react-app-rewired": "^2.1.8"
   }
 }

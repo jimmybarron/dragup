@@ -27,11 +27,11 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
                 setMaxHeight(sliderContainerRef.current.offsetHeight)
             }}
             onDrag={(event, info) => {
-                props.setDragNum(clamp(Math.ceil(Math.abs((info.offset.y / maxHeight) * 10)), 0, 9))
+                props.onDrag(clamp(Math.ceil(Math.abs((info.offset.y / maxHeight) * 10)), 0, 9))
             }}
             onDragEnd={(event, info) => {
-                props.setCountdownNum(props.dragNum)
-                props.setDragNum(0)
+                props.onDragEnd(props.dragNum)
+                props.onDrag(0)
             }}
             variants={variants}
             whileTap="getBig"
