@@ -86,7 +86,7 @@ const SliderContainer = props => {
                     justifyContent: 'flex-end',
                     position: 'relative',
                     width: "150px",
-                    height: "90vh",
+                    height: "85vh",
             }}>
     
                 <Slider
