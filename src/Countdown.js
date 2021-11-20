@@ -8,7 +8,6 @@ const Countdown = props => {
     })
     
     useEffect(() => {
-        console.log(props.countdownNum, timer.getConfig());
         timer.stop()
         timer.start({
             startValues: {
