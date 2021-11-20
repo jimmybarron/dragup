@@ -27,7 +27,7 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
                 setMaxHeight(sliderContainerRef.current.offsetHeight)
             }}
             onDrag={(event, info) => {
-                props.onDrag(clamp(Math.ceil(Math.abs((info.offset.y / maxHeight) * 10)), 0, 9))
+                props.onDrag(clamp(Math.ceil(Math.abs((info.offset.y / maxHeight) * 11)), 0, 9))
             }}
             onDragEnd={(event, info) => {
                 props.onDragEnd(props.dragNum)

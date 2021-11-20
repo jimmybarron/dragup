@@ -14,21 +14,20 @@ const SliderContainer = props => {
                 flexDirection: "column",
                 position: 'relative',
                 width: "150px",
-                height: "90vh",
+                height: "75vh",
                 overflow: "visible",
         }}>
             
             <svg
                 className="indicators"
                 width="100%"
+                height="80%"
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
                 style={{
                     overflow: "visible",
                     position: "absolute",
-                    transformOrigin: "bottom center",
-                    height: "90%",
-                    marginTop: "20%",
+                    marginTop: '4rem',
             }}>
 
                 <svg>
@@ -86,7 +85,7 @@ const SliderContainer = props => {
                     justifyContent: 'flex-end',
                     position: 'relative',
                     width: "150px",
-                    height: "85vh",
+                    height: "100%",
             }}>
     
                 <Slider
