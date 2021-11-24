@@ -8,12 +8,13 @@ const SliderContainer = props => {
     return (
 
         <div
+            id={props.id}
             className="numberSlider"
             style={{
                 display: "flex",
                 flexDirection: "column",
                 position: 'relative',
-                width: "150px",
+                width: props.width,
                 height: "75vh",
                 overflow: "visible",
         }}>
@@ -84,7 +85,7 @@ const SliderContainer = props => {
                     flexDirection: "column",
                     justifyContent: 'flex-end',
                     position: 'relative',
-                    width: "150px",
+                    width: props.width,
                     height: "100%",
             }}>
     

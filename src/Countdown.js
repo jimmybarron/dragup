@@ -8,13 +8,15 @@ const Countdown = props => {
     })
     
     useEffect(() => {
+        let minutes = [props.countdownMinTens, props.countdownMinOnes].join('')
+        console.log(minutes);
         timer.stop()
         timer.start({
             startValues: {
-                minutes: props.countdownNum,
+                minutes: minutes,
             },
         })
-    }, [props.countdownNum])
+    }, [props.countdownMinTens, props.countdownMinOnes])
 
     return (
         <div>
