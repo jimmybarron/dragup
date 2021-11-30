@@ -11,7 +11,7 @@ function App() {
     const [dragNumMinOnes, setDragNumMinOnes] = useState(0)
     const [dragNumMinTens, setDragNumMinTens] = useState(0)
 
-    // Used to send the current drag number to the countdown
+    // Used to send the current drag number to the countdown on drag end event
     const [countdownMinOnes, setCountdownMinOnes] = useState(0)
     const [countdownMinTens, setCountdownMinTens] = useState(0)
     
@@ -19,26 +19,35 @@ function App() {
         setCountdownMinOnes(0)
         setCountdownMinTens(0)
         timer.stop()
-        timer.start({
-            startValues: [0,0,0,0,0],
-        })
-        timer.stop()
     }
 
     const [timer, isTargetAchieved] = useTimer({
         countdown: true,
     })
 
-    // When a new number is sent to the timer
+    // When the user lifts their finger and a new countdown is set
     useEffect(() => {
-        let minutes = [countdownMinTens, countdownMinOnes].join('')
-        console.log(minutes);
+        let newTime = [countdownMinTens, countdownMinOnes].join('')
+        // Create an async function that starts a timer; awaits a delay before setting the time; then clears that timeout
+        let startTimeout = () => {
+            return setTimeout(() => {
+                console.log('Set timeout Running');
+                timer.start({
+                    startValues: {
+                        minutes: newTime,
+                    },
+                })
+            }, 4000)    
+        }
+        let starter = async () => {
+            let timeoutID = await startTimeout()
+            console.log('timeout ID:', timeoutID);
+            console.log(newTime);
+            // await clearTimeout(timeoutID)
+        }
         timer.stop()
-        timer.start({
-            startValues: {
-                minutes: minutes,
-            },
-        })
+        starter()
+
     }, [countdownMinTens, countdownMinOnes, timer])
 
     return (
