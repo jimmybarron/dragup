@@ -20,7 +20,7 @@ function App() {
         setCountdownMinTens(0)
         timer.stop()
     }
-
+    
     const [timer, isTargetAchieved] = useTimer({
         countdown: true,
     })
@@ -28,57 +28,59 @@ function App() {
     // When the user lifts their finger and a new countdown is set
     useEffect(() => {
         let newTime = [countdownMinTens, countdownMinOnes].join('')
+        console.log('New Time:', newTime, 'Minutes');
         // Create an async function that starts a timer; awaits a delay before setting the time; then clears that timeout
-        let startTimeout = () => {
-            return setTimeout(() => {
-                console.log('Set timeout Running');
-                timer.start({
-                    startValues: {
-                        minutes: newTime,
-                    },
-                })
-            }, 4000)    
-        }
-        let starter = async () => {
-            let timeoutID = await startTimeout()
-            console.log('timeout ID:', timeoutID);
-            console.log(newTime);
-            // await clearTimeout(timeoutID)
-        }
         timer.stop()
-        starter()
+        timer.start({
+            startValues: {
+                minutes: newTime,
+            },
+        })
+        // setTimeout(() => {
+        //     console.log('Timer Delay Started');
+        //     timer.start({
+        //         startValues: {
+        //             minutes: newTime,
+        //         },
+        //     })
+        // }, 1000) 
 
     }, [countdownMinTens, countdownMinOnes, timer])
 
     return (
         <div className="App">
             
-            <Countdown
-                time={timer.getTimeValues().toString()}
-            />
 
-            <div style={{ display: 'flex', }}>
-
-                <SliderContainer
-                    id="sliderMinTens"
-                    width="100px"
-                    dragNum={dragNumMinTens}
-                    onDrag={setDragNumMinTens}
-                    onDragEnd={setCountdownMinTens}/>
-
-                <div style={{ width: '25px', }}></div>
-
-                <SliderContainer
-                    id="sliderMinOnes"
-                    width="100px"
-                    dragNum={dragNumMinOnes}
-                    onDrag={setDragNumMinOnes}
-                    onDragEnd={setCountdownMinOnes}/>
+            <div>
+                <div className='sliders' style={{ display: 'flex' , marginLeft: '3%'}}>
+    
+                    <SliderContainer
+                        id="sliderMinTens"
+                        width="70px"
+                        dragNum={dragNumMinTens}
+                        onDrag={setDragNumMinTens}
+                        onDragEnd={setCountdownMinTens}/>
+    
+                    <div style={{ width: '8px', }}></div>
+    
+                    <SliderContainer
+                        id="sliderMinOnes"
+                        width="70px"
+                        dragNum={dragNumMinOnes}
+                        onDrag={setDragNumMinOnes}
+                        onDragEnd={setCountdownMinOnes}/>
+    
+                </div>
+                
+                <Countdown
+                    minutes={timer.getTimeValues().minutes.toString()}
+                    seconds={timer.getTimeValues().seconds.toString()}
+                />
 
             </div>
 
             <Button
-                onClick={handleReset}/>
+                style={{ marginTop: '30px' }} onClick={handleReset}/>
 
         </div>
     );  
