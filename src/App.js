@@ -57,6 +57,7 @@ function App() {
                     <SliderContainer
                         id="sliderMinTens"
                         width="70px"
+                        maxNum="6"
                         dragNum={dragNumMinTens}
                         onDrag={setDragNumMinTens}
                         onDragEnd={setCountdownMinTens}/>
@@ -66,6 +67,7 @@ function App() {
                     <SliderContainer
                         id="sliderMinOnes"
                         width="70px"
+                        maxNum="9"
                         dragNum={dragNumMinOnes}
                         onDrag={setDragNumMinOnes}
                         onDragEnd={setCountdownMinOnes}/>
