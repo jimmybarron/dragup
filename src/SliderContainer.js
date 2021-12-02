@@ -90,11 +90,8 @@ const SliderContainer = props => {
             }}>
     
                 <Slider
+                    {...props}
                     ref={sliderContainerRef}
-                    maxNum={props.maxNum}
-                    dragNum={props.dragNum}
-                    onDrag={props.onDrag}
-                    onDragEnd={props.onDragEnd}
                 />
             
             </div>
