@@ -4,7 +4,7 @@ const Button = props => {
 
     return (
         <button onClick={props.onClick} className="Button">
-            Reset
+            {props.children}
         </button>
     )
 
