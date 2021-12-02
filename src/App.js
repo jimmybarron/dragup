@@ -7,7 +7,7 @@ import Button from './Button';
 
 function App() {
 
-    // Used to display the current drag number
+    // Used to display the current drag number for feedback. Without this the countdown is continously triggered.
     const [dragNumMinOnes, setDragNumMinOnes] = useState(0)
     const [dragNumMinTens, setDragNumMinTens] = useState(0)
 
@@ -15,15 +15,25 @@ function App() {
     const [countdownMinOnes, setCountdownMinOnes] = useState(0)
     const [countdownMinTens, setCountdownMinTens] = useState(0)
     
+    const [timer, isTargetAchieved] = useTimer({
+        countdown: true,
+    })
+
     const handleReset = () => {
         setCountdownMinOnes(0)
         setCountdownMinTens(0)
         timer.stop()
     }
-    
-    const [timer, isTargetAchieved] = useTimer({
-        countdown: true,
-    })
+
+    const countdownZeroPadder = (position) => {
+        // convert number to string then array
+        let time = timer.getTimeValues().minutes.toString().split('')
+        // if the time is a single digit; add a zero for padding and return
+        if (time.length === 1) {
+            time.unshift(0)
+        }
+        return time[position]
+    }
 
     // When the user lifts their finger and a new countdown is set
     useEffect(() => {
@@ -49,7 +59,6 @@ function App() {
 
     return (
         <div className="App">
-            
 
             <div>
                 <div className='sliders' style={{ display: 'flex' , marginLeft: '3%'}}>
@@ -57,12 +66,15 @@ function App() {
                     <SliderContainer
                         id="sliderMinTens"
                         width="70px"
-                        maxNum="6"
+                        maxNum="5"
                         dragNum={dragNumMinTens}
                         onDrag={setDragNumMinTens}
-                        onDragEnd={setCountdownMinTens}/>
+                        onDragEnd={setCountdownMinTens}
+                        displayNum={countdownZeroPadder(0)}
+                        />
     
-                    <div style={{ width: '8px', }}></div>
+                    <div style={{ width: '8px', }}>
+                    </div>
     
                     <SliderContainer
                         id="sliderMinOnes"
@@ -70,7 +82,9 @@ function App() {
                         maxNum="9"
                         dragNum={dragNumMinOnes}
                         onDrag={setDragNumMinOnes}
-                        onDragEnd={setCountdownMinOnes}/>
+                        onDragEnd={setCountdownMinOnes}
+                        displayNum={countdownZeroPadder(1)}
+                    />
     
                 </div>
                 
@@ -82,7 +96,8 @@ function App() {
             </div>
 
             <Button
-                style={{ marginTop: '30px' }} onClick={handleReset}/>
+                style={{ marginTop: '30px' }} onClick={handleReset}
+            />
 
         </div>
     );  
