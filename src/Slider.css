@@ -1,4 +1,4 @@
-.button {
+.dragEl {
     touch-action: none;
     display: flex;
     flex-direction: column;
@@ -6,7 +6,8 @@
     height: 70px;
     width: 70px;
     border-radius: 50%;
-    background-color: #ffffff;
+    background-color: #000;
+    color: white;
     font-size: 64px;
     font-weight: bold;
 }
