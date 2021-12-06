@@ -8,12 +8,6 @@ import Button from './Button';
 
 function App() {
 
-    // Used to display the current drag number for feedback. Without this the countdown is continously triggered.
-    const [dragNumMinOnes, setDragNumMinOnes] = useState(0)
-    const [dragNumMinTens, setDragNumMinTens] = useState(0)
-    const [dragNumSecOnes, setDragNumSecOnes] = useState(0)
-    const [dragNumSecTens, setDragNumSecTens] = useState(0)
-
     // Used to send the current drag number to the countdown on drag end event
     const [countdownMinOnes, setCountdownMinOnes] = useState(0)
     const [countdownMinTens, setCountdownMinTens] = useState(0)
@@ -24,6 +18,7 @@ function App() {
         countdown: true
     })
 
+    // This adds the zero padding eg. '01' instead of default of '1' so the controls show zeros instead of being blank
     const countdownZeroPadder = (position, set) => {
         // convert number to string then array
         let time = countdownTimer.getTimeValues()[set].toString().split('')
@@ -57,8 +52,12 @@ function App() {
         updateWhenTargetAchieved: true,
     })
 
-    const delayAndSetCountdownSecOnes = dragNum => {
-        setCountdownSecOnes(dragNum)
+    const delayThenSetCountdown = (position, time) => {
+        // Sends time from controls to countdown 
+        position === 'minTens' && setCountdownMinTens(time)
+        position === 'minOnes' && setCountdownMinOnes(time)
+        position === 'secTens' && setCountdownSecTens(time)
+        position === 'secOnes' && setCountdownSecOnes(time)
         delayTimer.start({
             startValues: {
                 seconds: 3,
@@ -80,53 +79,51 @@ function App() {
                 <div className='sliders'>
     
                     <SliderContainer
-                        id="sliderMinTens"
+                        id="minTens"
                         width="70px"
                         maxNum="5"
-                        dragNum={dragNumMinTens}
-                        onDrag={setDragNumMinTens}
-                        onDragEnd={setCountdownMinTens}
-                        displayNum={countdownZeroPadder(0, 'minutes')}
+                        setDelay={setDelay}
+                        isDelayDone={isDelayDone}
+                        onDragEnd={delayThenSetCountdown}
+                        countdownTime={countdownZeroPadder(0, 'minutes')}
                     />
     
                     <div style={{ width: '8px', }}>   
                     </div>
     
                     <SliderContainer
-                        id="sliderMinOnes"
+                        id="minOnes"
                         width="70px"
                         maxNum="9"
-                        dragNum={dragNumMinOnes}
-                        onDrag={setDragNumMinOnes}
-                        onDragEnd={setCountdownMinOnes}
-                        displayNum={countdownZeroPadder(1, 'minutes')}
+                        setDelay={setDelay}
+                        isDelayDone={isDelayDone}
+                        onDragEnd={delayThenSetCountdown}
+                        countdownTime={countdownZeroPadder(1, 'minutes')}
                     />
 
                     <div style={{color: 'white', fontSize:'64px', margin: '0 12px'}}>:</div>
 
                     <SliderContainer
-                        id="sliderMinTens"
+                        id="secTens"
                         width="70px"
                         maxNum="5"
-                        dragNum={dragNumSecTens}
-                        onDrag={setDragNumSecTens}
-                        onDragEnd={setCountdownSecTens}
-                        displayNum={countdownZeroPadder(0, 'seconds')}
+                        setDelay={setDelay}
+                        isDelayDone={isDelayDone}
+                        onDragEnd={delayThenSetCountdown}
+                        countdownTime={countdownZeroPadder(0, 'seconds')}
                     />
     
                     <div style={{ width: '8px', }}>
                     </div>
     
                     <SliderContainer
-                        id="sliderMinOnes"
+                        id="secOnes"
                         width="70px"
                         maxNum="9"
                         setDelay={setDelay}
                         isDelayDone={isDelayDone}
-                        dragNum={dragNumSecOnes}
-                        onDrag={setDragNumSecOnes}
-                        onDragEnd={delayAndSetCountdownSecOnes}
-                        displayNum={countdownZeroPadder(1, 'seconds')}
+                        onDragEnd={delayThenSetCountdown}
+                        countdownTime={countdownZeroPadder(1, 'seconds')}
                     />
     
                 </div>
