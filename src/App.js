@@ -130,11 +130,6 @@ function App() {
                     />
     
                 </div>
-                
-                {/* <Countdown
-                    minutes={timer.getTimeValues().minutes.toString()}
-                    seconds={timer.getTimeValues().seconds.toString()}
-                /> */}
 
 
             <Button style={{ marginTop: '30px' }} onClick={handleReset}>

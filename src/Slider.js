@@ -4,19 +4,22 @@ import { motion, useAnimation } from 'framer-motion'
 
 const variants = {
     resetPosition : {
+        scale: 1,
         y: 0,
         backgroundColor: '#000000',
     },
 
     getBig: {
-        scale: 0.9,
+        scale: 1.2,
         color: '#000000',
         backgroundColor: '#ffffff',
         transition: { duration: 0.1 }
     },
 
     float: {
-        y: 0,
+        color: '#ffffff',
+        backgroundColor: '#000000',
+        transition: { duration: 3 }
     }
 }
 
@@ -25,7 +28,8 @@ const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
 const Slider = React.forwardRef((props, sliderContainerRef) => {
 
     // This gets the height of the controller to set it's range
-    const [maxHeight, setMaxHeight] = useState(0)
+    const [sliderHeight, setSliderHeight] = useState(0)
+    
     // Used to hide / show the live dragging number and the countdown number
     const [dragging, setDragging] = useState(false)
 
@@ -35,7 +39,7 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
         <motion.div
             className="dragEl"
             style={{ zIndex: '10' }}
-            animate={props.isDelayDone && "resetPosition"}
+            animate={controls}
             variants={variants}
             drag
             dragMomentum={false}
@@ -44,18 +48,21 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
             // dragSnapToOrigin={true}
             // dragTransition={{ type: "spring", duration: "0.2", bounce: "0.4" }}
             onDragStart={(event, info) => {
-                setMaxHeight(sliderContainerRef.current.offsetHeight)
+                setSliderHeight(sliderContainerRef.current.offsetHeight)
                 setDragging(true)
+                controls.start('getBig')
             }}
             onDrag={(event, info) => {
-                props.onDrag(clamp(Math.floor(Math.abs((info.offset.y / maxHeight) * 13)), 0, props.maxNum))
+                props.onDrag(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
             }}
-            onDragEnd={(event, info) => {
+            onDragEnd={async (event, info) => {
+                console.log(info);
                 props.setDelay(prevState => prevState + 1)
                 props.onDragEnd(props.dragNum)
                 setDragging(false)
+                await controls.start('float')
+                await controls.start('resetPosition')
             }}
-            whileTap="getBig"
         >
             <div className={dragging ? '' : "hide"}>
                 {props.dragNum}
