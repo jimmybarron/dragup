@@ -16,7 +16,7 @@ const variants = {
         transition: { duration: 0.1 }
     },
 
-    float: {
+    fade: {
         color: '#ffffff',
         backgroundColor: '#000000',
         transition: { duration: 3 }
@@ -29,7 +29,9 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
 
     // This gets the height of the controller to set it's range
     const [sliderHeight, setSliderHeight] = useState(0)
-    
+
+    const [time, setTime] = useState(0)
+
     // Used to hide / show the live dragging number and the countdown number
     const [dragging, setDragging] = useState(false)
 
@@ -53,23 +55,22 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
                 controls.start('getBig')
             }}
             onDrag={(event, info) => {
-                props.onDrag(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
+                setTime(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
             }}
             onDragEnd={async (event, info) => {
-                console.log(info);
                 props.setDelay(prevState => prevState + 1)
-                props.onDragEnd(props.dragNum)
+                props.onDragEnd(props.id, time)
                 setDragging(false)
-                await controls.start('float')
+                await controls.start('fade')
                 await controls.start('resetPosition')
             }}
         >
             <div className={dragging ? '' : "hide"}>
-                {props.dragNum}
+                {time}
             </div>
 
             <div className={dragging ? "hide" : ''}>
-                {props.displayNum}
+                {props.countdownTime}
             </div>
 
         </motion.div>
