@@ -8,6 +8,7 @@ const variants = {
         scale: 1,
         y: 0,
         backgroundColor: '#000000',
+        color: '#ffffff',
     },
 
     getBig: {
@@ -31,24 +32,30 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
     // This gets the height of the controller to set it's range
     const [sliderHeight, setSliderHeight] = useState(0)
 
-    const [time, setTime] = useState(0)
-
-    // Used to hide / show the live dragging number and the countdown number
-    const [draggingControl, setDraggingControl] = useState(false)
+    const [controllerTime, setControllerTime] = useState(0)
 
     const controls = useAnimation()
 
-    // COUNTDOWN START ANIMATION
+    // ANIMATION CONTROLS ON MODE CHANGE
     useEffect(() => {
-        setDraggingControl(false)
-        setTime(0)
-        props.isDelayTimerDone && controls.start('resetPosition')
-    }, [props.isDelayTimerDone])
-
-    useEffect(() => {
-        setTime(0)
-        controls.start('resetPosition')
-    },[props.triggerReset])
+        switch (props.mode) {
+            case 'zero':
+                controls.start('resetPosition')
+                setControllerTime(0)
+                break
+            case 'edit':
+                break
+            case 'delay':
+                controls.start('fade')
+                break
+            case 'count':
+                setControllerTime(0)
+                controls.start('resetPosition')
+                break
+            default:
+                break;
+        }
+    }, [props.mode])
     
     return (
         <motion.div
@@ -60,27 +67,24 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
             dragMomentum={false}
             dragConstraints={sliderContainerRef}
             dragElastic={0.01}
-            // dragSnapToOrigin={true}
-            // dragTransition={{ type: "spring", duration: "0.2", bounce: "0.4" }}
             onDragStart={(event, info) => {
                 setSliderHeight(sliderContainerRef.current.offsetHeight)
-                setDraggingControl(true)
+                props.setMode('edit')
                 controls.start('getBig')
             }}
             onDrag={(event, info) => {
-                setTime(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
+                setControllerTime(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
             }}
             onDragEnd={(event, info) => {
-                props.onDragEnd(props.id, time)
-                controls.start('fade')
+                props.onDragEnd(props.id, controllerTime)
+                props.setMode('delay')
             }}
         >
-            <div className={draggingControl ? 'visible' : 'hide'}>
-                {time}
-            </div>
-
-            <div className={draggingControl ? 'hide' : 'visible'}>
-                {props.countdownTime}
+            <div>
+                {props.mode === 'zero' && props.countdownTime}
+                {props.mode === 'edit' && controllerTime}
+                {props.mode === 'delay' && controllerTime}
+                {props.mode === 'count' && props.countdownTime}
             </div>
 
         </motion.div>
