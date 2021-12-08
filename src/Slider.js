@@ -34,15 +34,21 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
     const [time, setTime] = useState(0)
 
     // Used to hide / show the live dragging number and the countdown number
-    const [displayTime, setDisplayTime] = useState(false)
+    const [draggingControl, setDraggingControl] = useState(false)
 
     const controls = useAnimation()
 
+    // COUNTDOWN START ANIMATION
     useEffect(() => {
-        setDisplayTime(false)
-        // controls.start('resetPosition')
-        props.isDelayDone && controls.start('resetPosition')
-    }, [props.isDelayDone])
+        setDraggingControl(false)
+        setTime(0)
+        props.isDelayTimerDone && controls.start('resetPosition')
+    }, [props.isDelayTimerDone])
+
+    useEffect(() => {
+        setTime(0)
+        controls.start('resetPosition')
+    },[props.triggerReset])
     
     return (
         <motion.div
@@ -58,7 +64,7 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
             // dragTransition={{ type: "spring", duration: "0.2", bounce: "0.4" }}
             onDragStart={(event, info) => {
                 setSliderHeight(sliderContainerRef.current.offsetHeight)
-                setDisplayTime(true)
+                setDraggingControl(true)
                 controls.start('getBig')
             }}
             onDrag={(event, info) => {
@@ -69,11 +75,11 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
                 controls.start('fade')
             }}
         >
-            <div className={displayTime ? '' : "hide"}>
+            <div className={draggingControl ? 'visible' : 'hide'}>
                 {time}
             </div>
 
-            <div className={displayTime ? "hide" : ''}>
+            <div className={draggingControl ? 'hide' : 'visible'}>
                 {props.countdownTime}
             </div>
 

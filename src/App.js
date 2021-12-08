@@ -27,8 +27,12 @@ function App() {
         updateWhenTargetAchieved: true,
     })
 
+    const [triggerReset, setTriggerReset] = useState(0)
+
     // RESET
     const handleReset = () => {
+        console.log('HandleReset Run');
+        console.log(countdownTimer.getTimeValues());
         setCountdownMinOnes(0)
         setCountdownMinTens(0)
         setCountdownSecOnes(0)
@@ -40,9 +44,10 @@ function App() {
             }
         })
         countdownTimer.stop()
-
+        console.log(countdownTimer.getTimeValues());
         delayTimer.reset()
         delayTimer.stop()
+        setTriggerReset(prevState => { return prevState + 1 })
     }
 
     // NUMBER PADDER HELPER: This adds the zero padding eg. '01' instead of default of '1' so the controls show zeros instead of being blank
@@ -99,9 +104,10 @@ function App() {
                         id="minTens"
                         width="70px"
                         maxNum="5"
-                        isDelayDone={isDelayTimerDone}
+                        isDelayTimerDone={isDelayTimerDone}
                         onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(0, 'minutes')}
+                        triggerReset={triggerReset}
                     />
     
                     <div style={{ width: '8px', }}>   
@@ -111,9 +117,10 @@ function App() {
                         id="minOnes"
                         width="70px"
                         maxNum="9"
-                        isDelayDone={isDelayTimerDone}
+                        isDelayTimerDone={isDelayTimerDone}
                         onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(1, 'minutes')}
+                        triggerReset={triggerReset}
                     />
 
                     <div style={{color: 'white', fontSize:'64px', margin: '0 12px'}}>:</div>
@@ -122,9 +129,10 @@ function App() {
                         id="secTens"
                         width="70px"
                         maxNum="5"
-                        isDelayDone={isDelayTimerDone}
+                        isDelayTimerDone={isDelayTimerDone}
                         onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(0, 'seconds')}
+                        triggerReset={triggerReset}
                     />
     
                     <div style={{ width: '8px', }}>
@@ -134,9 +142,10 @@ function App() {
                         id="secOnes"
                         width="70px"
                         maxNum="9"
-                        isDelayDone={isDelayTimerDone}
+                        isDelayTimerDone={isDelayTimerDone}
                         onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(1, 'seconds')}
+                        triggerReset={triggerReset}
                     />
     
                 </div>
