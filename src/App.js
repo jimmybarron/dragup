@@ -8,70 +8,87 @@ import Button from './Button';
 
 function App() {
 
-    // Used to send the current drag number to the countdown on drag end event
+    // COUNTDOWN MEMORY: Used to send the current drag number to the countdown on drag end event
     const [countdownMinOnes, setCountdownMinOnes] = useState(0)
     const [countdownMinTens, setCountdownMinTens] = useState(0)
     const [countdownSecOnes, setCountdownSecOnes] = useState(0)
     const [countdownSecTens, setCountdownSecTens] = useState(0)
 
+
+    // COUNTDOWN TIMER
     const [countdownTimer, isCountdownDone] = useTimer({
-        countdown: true
+        countdown: true,
+        updateWhenTargetAchieved: true,
     })
 
-    // This adds the zero padding eg. '01' instead of default of '1' so the controls show zeros instead of being blank
+    // DELAY TIMER
+    const [delayTimer, isDelayTimerDone] = useTimer({
+        countdown: true,
+        updateWhenTargetAchieved: true,
+    })
+
+    // RESET
+    const handleReset = () => {
+        setCountdownMinOnes(0)
+        setCountdownMinTens(0)
+        setCountdownSecOnes(0)
+        setCountdownSecTens(0)
+        countdownTimer.start({
+            startValues: {
+                minutes: 0,
+                seconds: 0,
+            }
+        })
+        countdownTimer.stop()
+
+        delayTimer.reset()
+        delayTimer.stop()
+    }
+
+    // NUMBER PADDER HELPER: This adds the zero padding eg. '01' instead of default of '1' so the controls show zeros instead of being blank
     const countdownZeroPadder = (position, set) => {
         // convert number to string then array
         let time = countdownTimer.getTimeValues()[set].toString().split('')
         // if the time is a single digit; add a zero for padding and return
         if (time.length === 1) {
             time.unshift(0)
-        }
+        } 
         return time[position]
     }
-    
 
-    // When the user lifts their finger and a new countdown is set
-    useEffect(() => {
-        let minutes = [countdownMinTens, countdownMinOnes].join('')
-        let seconds = [countdownSecTens, countdownSecOnes].join('')
-        // console.log([0, 0, minutes, seconds, 0]);
-        // Create an async function that starts a timer; awaits a delay before setting the time; then clears that timeout
-        countdownTimer.stop()
-        countdownTimer.start({
-            startValues: {
-                minutes: minutes,
-                seconds: seconds,
-            }
-        })
-    }, [countdownMinTens, countdownMinOnes, countdownSecTens, countdownSecOnes, countdownTimer])
-    
-    const [delay, setDelay] = useState(0)
-
-    const [delayTimer, isDelayDone] = useTimer({
-        countdown: true,
-        updateWhenTargetAchieved: true,
-    })
-
-    const delayThenSetCountdown = (position, time) => {
-        // Sends time from controls to countdown 
+    // COUNTDOWN LOADER & DELAY START: Loads time values from controls into their respective countdown states; starts delay Timer
+    const loadCountdownStartDelay = (position, time) => {
         position === 'minTens' && setCountdownMinTens(time)
         position === 'minOnes' && setCountdownMinOnes(time)
         position === 'secTens' && setCountdownSecTens(time)
         position === 'secOnes' && setCountdownSecOnes(time)
+        delayTimer.reset()
         delayTimer.start({
             startValues: {
                 seconds: 3,
             }
         })
     }
+
+    // START COUNTDOWN: Once delay is done; Complies time from all the controller states, starts the countdown with those new values
+    useEffect(() => {
+        let minutes = [countdownMinTens, countdownMinOnes].join('')
+        let seconds = [countdownSecTens, countdownSecOnes].join('')
+        countdownTimer.start({
+            startValues: {
+                minutes: minutes,
+                seconds: seconds,
+            }
+        })
+    }, [isDelayTimerDone])
+
+
+    // COUNTDOWN DONE
+    useEffect(() => {
+        console.log('Countdown Done');
+        handleReset()
+    }, [isCountdownDone])
    
-    const handleReset = () => {
-        setCountdownMinOnes(0)
-        setCountdownMinTens(0)
-        setCountdownSecOnes(0)
-        setCountdownSecTens(0)
-        countdownTimer.stop()
-    }
 
     return (
         <div className="App">
@@ -82,9 +99,8 @@ function App() {
                         id="minTens"
                         width="70px"
                         maxNum="5"
-                        setDelay={setDelay}
-                        isDelayDone={isDelayDone}
-                        onDragEnd={delayThenSetCountdown}
+                        isDelayDone={isDelayTimerDone}
+                        onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(0, 'minutes')}
                     />
     
@@ -95,9 +111,8 @@ function App() {
                         id="minOnes"
                         width="70px"
                         maxNum="9"
-                        setDelay={setDelay}
-                        isDelayDone={isDelayDone}
-                        onDragEnd={delayThenSetCountdown}
+                        isDelayDone={isDelayTimerDone}
+                        onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(1, 'minutes')}
                     />
 
@@ -107,9 +122,8 @@ function App() {
                         id="secTens"
                         width="70px"
                         maxNum="5"
-                        setDelay={setDelay}
-                        isDelayDone={isDelayDone}
-                        onDragEnd={delayThenSetCountdown}
+                        isDelayDone={isDelayTimerDone}
+                        onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(0, 'seconds')}
                     />
     
@@ -120,9 +134,8 @@ function App() {
                         id="secOnes"
                         width="70px"
                         maxNum="9"
-                        setDelay={setDelay}
-                        isDelayDone={isDelayDone}
-                        onDragEnd={delayThenSetCountdown}
+                        isDelayDone={isDelayTimerDone}
+                        onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(1, 'seconds')}
                     />
     

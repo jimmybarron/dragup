@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './Slider.css';
 import { motion, useAnimation } from 'framer-motion'
+import { useEffect } from 'react/cjs/react.development';
 
 const variants = {
     resetPosition : {
@@ -33,9 +34,15 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
     const [time, setTime] = useState(0)
 
     // Used to hide / show the live dragging number and the countdown number
-    const [dragging, setDragging] = useState(false)
+    const [displayTime, setDisplayTime] = useState(false)
 
     const controls = useAnimation()
+
+    useEffect(() => {
+        setDisplayTime(false)
+        // controls.start('resetPosition')
+        props.isDelayDone && controls.start('resetPosition')
+    }, [props.isDelayDone])
     
     return (
         <motion.div
@@ -51,25 +58,22 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
             // dragTransition={{ type: "spring", duration: "0.2", bounce: "0.4" }}
             onDragStart={(event, info) => {
                 setSliderHeight(sliderContainerRef.current.offsetHeight)
-                setDragging(true)
+                setDisplayTime(true)
                 controls.start('getBig')
             }}
             onDrag={(event, info) => {
                 setTime(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
             }}
-            onDragEnd={async (event, info) => {
-                props.setDelay(prevState => prevState + 1)
+            onDragEnd={(event, info) => {
                 props.onDragEnd(props.id, time)
-                setDragging(false)
-                await controls.start('fade')
-                await controls.start('resetPosition')
+                controls.start('fade')
             }}
         >
-            <div className={dragging ? '' : "hide"}>
+            <div className={displayTime ? '' : "hide"}>
                 {time}
             </div>
 
-            <div className={dragging ? "hide" : ''}>
+            <div className={displayTime ? "hide" : ''}>
                 {props.countdownTime}
             </div>
 
