@@ -79,6 +79,7 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
             }}
             onDragEnd={(event, info) => {
                 props.onDragEnd(props.id, controllerTime)
+                controls.start('getBig')
                 props.setMode('delay')
             }}
         >
