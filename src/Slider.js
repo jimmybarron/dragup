@@ -22,7 +22,7 @@ const variants = {
         color: '#ffffff',
         backgroundColor: '#000000',
         transition: { duration: 3 }
-    }
+    },
 }
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
@@ -67,10 +67,12 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
             dragMomentum={false}
             dragConstraints={sliderContainerRef}
             dragElastic={0.01}
+            onTapStart={(event, info) => {
+                controls.start('getBig')
+            }}
             onDragStart={(event, info) => {
                 setSliderHeight(sliderContainerRef.current.offsetHeight)
                 props.setMode('edit')
-                controls.start('getBig')
             }}
             onDrag={(event, info) => {
                 setControllerTime(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
