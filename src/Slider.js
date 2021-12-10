@@ -4,7 +4,7 @@ import { motion, useAnimation } from 'framer-motion'
 import { useEffect } from 'react/cjs/react.development';
 
 const variants = {
-    resetPosition : {
+    resetPosition: {
         scale: 1,
         y: 0,
         backgroundColor: '#000000',
