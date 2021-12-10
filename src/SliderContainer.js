@@ -5,6 +5,16 @@ const SliderContainer = props => {
 
     const sliderContainerRef = useRef(null)
 
+    const variants = {
+        hidden: {
+            opacity: 0
+        },
+        
+        visible: {
+            opacity: 1
+        }
+    }
+
     return (
 
         <div
@@ -17,7 +27,10 @@ const SliderContainer = props => {
                 width: props.width,
                 height: "75vh",
                 overflow: "visible",
-        }}>
+            }}
+            variants={variants}
+            animate={props.mode === 'edit' && 'hidden'}
+        >
             
             <svg
                 className="indicators"

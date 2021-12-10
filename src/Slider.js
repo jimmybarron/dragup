@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Slider.css';
 import { motion, useAnimation } from 'framer-motion'
-import { useEffect } from 'react/cjs/react.development';
 
 const variants = {
     resetPosition: {
