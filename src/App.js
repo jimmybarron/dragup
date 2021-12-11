@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from 'react'
 import useTimer from 'easytimer-react-hook'
 import './App.css';
-import Countdown from './Countdown'
 import './Sliders.css'
 import SliderContainer from './SliderContainer';
 import Button from './Button';

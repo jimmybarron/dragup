@@ -1,18 +1,61 @@
 import { React, useRef } from 'react'
+import { motion } from 'framer-motion';
 import Slider from './Slider';
 
 const SliderContainer = props => {
 
     const sliderContainerRef = useRef(null)
 
-    const variants = {
-        hidden: {
-            opacity: 0
+    const controlVariants = {
+        zero: {
+            opacity: 0,
+            pathLength: 0,
         },
         
-        visible: {
-            opacity: 1
-        }
+        edit: {
+            opacity: 1,
+            pathLength: 1,
+            transition: {
+                opacity: { duration: 0.05 },
+                pathLength: { type: "spring", duration: 0.3, bounce: 0 },
+            },
+        },
+        
+        delay: {
+            opacity: 1,
+            pathLength: 1,
+        },
+        
+        count: {
+            opacity: 0,
+            pathLength: 0,
+        },
+    }
+
+    const dotVariants = {
+        zero: {
+            opacity: 0,
+            pathLength: 0,
+        },
+        
+        edit: {
+            opacity: 1,
+            pathLength: 1,
+            transition: {
+                opacity: { duration: 0.1 },
+                pathLength: { type: "spring", duration: 0.5, bounce: 0 },
+            },
+        },
+        
+        delay: {
+            opacity: 1,
+            pathLength: 1,
+        },
+        
+        count: {
+            opacity: 0,
+            pathLength: 0,
+        },
     }
 
     return (
@@ -28,8 +71,6 @@ const SliderContainer = props => {
                 height: "75vh",
                 overflow: "visible",
             }}
-            variants={variants}
-            animate={props.mode === 'edit' && 'hidden'}
         >
             
             <svg
@@ -42,50 +83,130 @@ const SliderContainer = props => {
                     overflow: "visible",
                     position: "absolute",
                     marginTop: '4rem',
-            }}>
+                }}
+            >
 
                 <svg>
-                    <line x1="50%" x2="50%" y1="0%" y2="100%" stroke="#666" strokeWidth="2"/>
+                    <motion.line
+                        x1="50%"
+                        x2="50%"
+                        y1="100%"
+                        y2="0%"
+                        stroke="#666"
+                        strokeWidth="2"
+                        variants={controlVariants}
+                        animate={props.mode}
+                    />
                 </svg>
 
                 <svg style={{overflow: 'visible'}}>
-                    <circle cx="50%" cy="0%" r="3" fill="#666"/>
-                </svg>
-
-                <svg>
-                    <circle cx="50%" cy="11.1%" r="3" fill="#666"/>
-                </svg>
-
-                <svg>
-                    <circle cx="50%" cy="22.2%" r="3" fill="#666"/>
-                </svg>
-
-                <svg>
-                    <circle cx="50%" cy="33.3%" r="3" fill="#666"/>
-                </svg>
-
-                <svg>
-                    <circle cx="50%" cy="44.4%" r="3" fill="#666"/>
-                </svg>
-
-                <svg>
-                    <circle cx="50%" cy="55.5%" r="3" fill="#666"/>
-                </svg>
-
-                <svg>
-                    <circle cx="50%" cy="66.6%" r="3" fill="#666"/>
-                </svg>
-
-                <svg>
-                    <circle cx="50%" cy="77.7%" r="3" fill="#666"/>
-                </svg>
-
-                <svg>
-                    <circle cx="50%" cy="88.8%" r="3" fill="#666"/>
+                    <motion.circle
+                        cx="50%"
+                        cy="0%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
                 </svg>
 
                 <svg style={{overflow: 'visible'}}>
-                    <circle cx="50%" cy="100%" r="3" fill="#666"/>
+                    <motion.circle
+                        cx="50%"
+                        cy="11.1%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
+                </svg>
+
+                <svg style={{overflow: 'visible'}}>
+                    <motion.circle
+                        cx="50%"
+                        cy="22.2%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
+                </svg>
+                
+                <svg style={{overflow: 'visible'}}>
+                    <motion.circle
+                        cx="50%"
+                        cy="33.3%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
+                </svg>
+
+                <svg style={{overflow: 'visible'}}>
+                    <motion.circle
+                        cx="50%"
+                        cy="44.4%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
+                </svg>
+
+                <svg style={{overflow: 'visible'}}>
+                    <motion.circle
+                        cx="50%"
+                        cy="55.5%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
+                </svg>
+
+                <svg style={{overflow: 'visible'}}>
+                    <motion.circle
+                        cx="50%"
+                        cy="66.6%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
+                </svg>
+
+                <svg style={{overflow: 'visible'}}>
+                    <motion.circle
+                        cx="50%"
+                        cy="77.7%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
+                </svg>
+
+                <svg style={{overflow: 'visible'}}>
+                    <motion.circle
+                        cx="50%"
+                        cy="88.8%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
+                </svg>
+
+                <svg style={{overflow: 'visible'}}>
+                    <motion.circle
+                        cx="50%"
+                        cy="100%"
+                        r="3"
+                        fill="#666"
+                        variants={dotVariants}
+                        animate={props.mode}
+                    />
                 </svg>
 
             </svg>
