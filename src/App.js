@@ -117,6 +117,14 @@ function App() {
     useEffect(() => {
         console.log(mode);
     },[mode])
+
+    const sliderContainerProps = {
+        width: "70px",
+        isDelayTimerDone: isDelayTimerDone,
+        onDragEnd: loadCountdownStartDelay,
+        mode,
+        setMode: setMode,
+    }
    
 
     return (
@@ -125,55 +133,39 @@ function App() {
                 <div className='sliders'>
     
                     <SliderContainer
+                        {...sliderContainerProps}
                         id="minTens"
-                        width="70px"
                         maxNum="5"
-                        isDelayTimerDone={isDelayTimerDone}
-                        onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(0, 'minutes')}
-                        mode={mode}
-                        setMode={setMode}
                     />
     
                     <div style={{ width: '8px', }}>   
                     </div>
     
                     <SliderContainer
+                        {...sliderContainerProps}
                         id="minOnes"
-                        width="70px"
                         maxNum="9"
-                        isDelayTimerDone={isDelayTimerDone}
-                        onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(1, 'minutes')}
-                        mode={mode}
-                        setMode={setMode}
                     />
 
                     <div style={{color: 'white', fontSize:'64px', margin: '0 12px'}}>:</div>
 
                     <SliderContainer
+                        {...sliderContainerProps}
                         id="secTens"
-                        width="70px"
                         maxNum="5"
-                        isDelayTimerDone={isDelayTimerDone}
-                        onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(0, 'seconds')}
-                        mode={mode}
-                        setMode={setMode}
                     />  
     
                     <div style={{ width: '8px', }}>
                     </div>
     
                     <SliderContainer
+                        {...sliderContainerProps}
                         id="secOnes"
-                        width="70px"
                         maxNum="9"
-                        isDelayTimerDone={isDelayTimerDone}
-                        onDragEnd={loadCountdownStartDelay}
                         countdownTime={countdownZeroPadder(1, 'seconds')}
-                        mode={mode}
-                        setMode={setMode}
                     />
     
                 </div>

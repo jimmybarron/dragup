@@ -6,10 +6,41 @@ const SliderContainer = props => {
 
     const sliderContainerRef = useRef(null)
 
-    const controlVariants = {
+    const indicatorVariants = {
+        zero: {
+            transition: {
+                staggerChildren: 0.05,
+                staggerDirection: 1,
+            },
+        },
+        edit: {
+            transition: {
+                staggerChildren: 0.05,
+                staggerDirection: -1,
+            },
+        },
+        delay: {
+            transition: {
+                staggerChildren: 0.05,
+                staggerDirection: -1,
+            },
+        },
+        // count: {
+        //     opacity: 0,
+        //     transition: {
+        //         staggerChildren: 0.05,
+        //         staggerDirection: 1,
+        //     },
+        // },
+    }
+
+    const lineVariants = {
         zero: {
             opacity: 0,
             pathLength: 0,
+            transition: {
+                delay: 0.2,
+            }
         },
         
         edit: {
@@ -24,6 +55,9 @@ const SliderContainer = props => {
         delay: {
             opacity: 1,
             pathLength: 1,
+            transition: {
+                delay: 1
+            }
         },
         
         count: {
@@ -36,8 +70,12 @@ const SliderContainer = props => {
         zero: {
             opacity: 0,
             pathLength: 0,
+            transition: {
+                delay: 0,
+                opacity: { duration: 0.5 },
+                pathLength: { type: "spring", duration: 0.5, bounce: 0 },
+            },
         },
-        
         edit: {
             opacity: 1,
             pathLength: 1,
@@ -46,17 +84,28 @@ const SliderContainer = props => {
                 pathLength: { type: "spring", duration: 0.5, bounce: 0 },
             },
         },
-        
         delay: {
             opacity: 1,
             pathLength: 1,
+            transition: {
+                opacity: { duration: 0.1 },
+                pathLength: { type: "spring", duration: 0.5, bounce: 0 },
+            },
         },
-        
         count: {
             opacity: 0,
             pathLength: 0,
         },
     }
+
+    const motionCircleProps = {
+        cx: '50%',
+        r: 3,
+        fill: "#666",
+        variants: dotVariants,
+    }
+
+    const motionCircleCys = ['0%', '11.1%', '22.2%', '33.3%', '44.4%', '55.5%', '66.6%', '77.7%', '88.8%', '100%']
 
     return (
 
@@ -73,7 +122,7 @@ const SliderContainer = props => {
             }}
         >
             
-            <svg
+            <motion.svg
                 className="indicators"
                 width="100%"
                 height="80%"
@@ -82,134 +131,36 @@ const SliderContainer = props => {
                 style={{
                     overflow: "visible",
                     position: "absolute",
-                    marginTop: '4rem',
+                    marginTop: "4rem",
                 }}
+                variants={indicatorVariants}
+                animate={props.mode}
             >
 
-                <svg>
-                    <motion.line
-                        x1="50%"
-                        x2="50%"
-                        y1="100%"
-                        y2="0%"
-                        stroke="#666"
-                        strokeWidth="2"
-                        variants={controlVariants}
-                        animate={props.mode}
-                    />
-                </svg>
+                <motion.line
+                    x1="50%"
+                    x2="50%"
+                    y1="100%"
+                    y2="0%"
+                    stroke="#666"
+                    strokeWidth="2"
+                    variants={lineVariants}
+                    animate={props.mode}
+                />
 
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="0%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
+                {
+                    motionCircleCys.map((cy, index) => {
+                        return (
+                            <motion.circle
+                                {...motionCircleProps}
+                                cy={cy}
+                                key={index}
+                            />
+                        )
+                    })
+                }
 
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="11.1%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
-
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="22.2%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
-                
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="33.3%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
-
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="44.4%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
-
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="55.5%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
-
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="66.6%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
-
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="77.7%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
-
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="88.8%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
-
-                <svg style={{overflow: 'visible'}}>
-                    <motion.circle
-                        cx="50%"
-                        cy="100%"
-                        r="3"
-                        fill="#666"
-                        variants={dotVariants}
-                        animate={props.mode}
-                    />
-                </svg>
-
-            </svg>
+            </motion.svg>
 
             <div
                 ref={sliderContainerRef}
