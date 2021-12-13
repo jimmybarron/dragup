@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import useTimer from 'easytimer-react-hook'
 import './App.css';
 import './Sliders.css'
@@ -21,6 +22,16 @@ function App() {
     const [countdownTimer, isCountdownDone] = useTimer({
         countdown: true,
         updateWhenTargetAchieved: true,
+    })
+
+    
+    let countdownTotalSeconds
+    // PROGRESS METER
+    const [countdownProgress, setCountdownProgress] = useState(0)
+
+    countdownTimer.addEventListener('secondsUpdated', () => {
+        setCountdownProgress(countdownTimer.getTotalTimeValues().seconds / countdownTotalSeconds)
+        console.log(countdownProgress);
     })
 
     // DELAY TIMER
@@ -56,7 +67,7 @@ function App() {
         setMode('delay')
     }
 
-    // DELAY TO COUNT
+    // DELAY TIMER TO COUNT MODE
     useEffect(() => {
         if (isDelayTimerDone === true) {
             setMode('count')
@@ -65,7 +76,6 @@ function App() {
 
      // RESET
      const handleReset = () => {
-
         // Clear countdown memory
         setCountdownMinOnes(0)
         setCountdownMinTens(0)
@@ -108,15 +118,13 @@ function App() {
                         seconds: seconds,
                     }
                 })
+                countdownTotalSeconds = countdownTimer.getTotalTimeValues().seconds
+                console.log(countdownTotalSeconds);
                 break
             default:
                 break;
         }
     }, [mode])
-
-    useEffect(() => {
-        console.log(mode);
-    },[mode])
 
     const sliderContainerProps = {
         width: "70px",
@@ -129,6 +137,21 @@ function App() {
 
     return (
         <div className="App">
+
+                <motion.div
+                    // initial={{
+                    //     scaleY: 0,
+                    // }}
+                    animate={{
+                        scaleY: countdownProgress
+                    }}
+                    style={{
+                        position: 'absolute',
+                        width: '100vw',
+                        height: '100%',
+                        backgroundColor: '#111'
+                    }}
+                />
 
                 <div className='sliders'>
     
