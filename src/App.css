@@ -7,3 +7,7 @@
   background-color: black;
   text-align: center;
 }
+
+.sliders {
+  z-index: 10;
+}

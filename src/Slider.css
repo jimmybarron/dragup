@@ -1,6 +1,6 @@
 .dragEl {
-    touch-action: none;
     display: flex;
+    touch-action: none;
     flex-direction: column;
     justify-content: center;
     height: 70px;
