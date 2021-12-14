@@ -1,62 +1,67 @@
 import React, { useState, useEffect } from 'react'
-import './Slider.css';
+import PropTypes from 'prop-types'
+import './Slider.css'
 import { motion, useAnimation } from 'framer-motion'
 
 const variants = {
-    resetPosition: {
-        scale: 1,
-        y: 0,
-        backgroundColor: '#000000',
-        color: '#ffffff',
-    },
+  resetPosition: {
+    scale: 1,
+    y: 0,
+    backgroundColor: '#000000',
+    color: '#ffffff'
+  },
 
-    getBig: {
-        scale: 1.2,
-        color: '#000000',
-        backgroundColor: '#ffffff',
-        transition: { duration: 0.1 }
-    },
+  getBig: {
+    scale: 1.2,
+    color: '#000000',
+    backgroundColor: '#ffffff',
+    transition: { duration: 0.1 }
+  },
 
-    fade: {
-        color: '#ffffff',
-        backgroundColor: '#000000',
-        transition: { duration: 3 }
-    },
+  fade: {
+    color: '#ffffff',
+    backgroundColor: '#000000',
+    transition: { duration: 3 }
+  }
 }
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
 
 const Slider = React.forwardRef((props, sliderContainerRef) => {
+  Slider.displayName = 'Slider'
+  Slider.propTypes = {
+    mode: PropTypes.string
+  }
 
-    // This gets the height of the controller to set it's range
-    const [sliderHeight, setSliderHeight] = useState(0)
+  // This gets the height of the controller to set it's range
+  const [sliderHeight, setSliderHeight] = useState(0)
 
-    const [controllerTime, setControllerTime] = useState(0)
+  const [controllerTime, setControllerTime] = useState(0)
 
-    const controls = useAnimation()
+  const controls = useAnimation()
 
-    // ANIMATION CONTROLS ON MODE CHANGE
-    useEffect(() => {
-        switch (props.mode) {
-            case 'zero':
-                controls.start('resetPosition')
-                setControllerTime(0)
-                break
-            case 'edit':
-                break
-            case 'delay':
-                controls.start('fade')
-                break
-            case 'count':
-                setControllerTime(0)
-                controls.start('resetPosition')
-                break
-            default:
-                break;
-        }
-    }, [props.mode])
-    
-    return (
+  // ANIMATION CONTROLS ON MODE CHANGE
+  useEffect(() => {
+    switch (props.mode) {
+      case 'zero':
+        controls.start('resetPosition')
+        setControllerTime(0)
+        break
+      case 'edit':
+        break
+      case 'delay':
+        controls.start('fade')
+        break
+      case 'count':
+        setControllerTime(0)
+        controls.start('resetPosition')
+        break
+      default:
+        break
+    }
+  }, [props.mode])
+
+  return (
         <motion.div
             className="dragEl"
             style={{ zIndex: '10' }}
@@ -67,19 +72,19 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
             dragConstraints={sliderContainerRef}
             dragElastic={0.01}
             onTapStart={(event, info) => {
-                controls.start('getBig')
+              controls.start('getBig')
             }}
             onDragStart={(event, info) => {
-                setSliderHeight(sliderContainerRef.current.offsetHeight)
-                props.setMode('edit')
+              setSliderHeight(sliderContainerRef.current.offsetHeight)
+              props.setMode('edit')
             }}
             onDrag={(event, info) => {
-                setControllerTime(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
+              setControllerTime(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
             }}
             onDragEnd={(event, info) => {
-                props.onDragEnd(props.id, controllerTime)
-                controls.start('getBig')
-                props.setMode('delay')
+              props.onDragEnd(props.id, controllerTime)
+              controls.start('getBig')
+              props.setMode('delay')
             }}
         >
             <div>
@@ -90,7 +95,7 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
             </div>
 
         </motion.div>
-    )
+  )
 })
 
 export default Slider

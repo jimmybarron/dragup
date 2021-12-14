@@ -1,20 +1,20 @@
-import { React, useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import useTimer from "easytimer-react-hook";
-import "./App.css";
-import "./Sliders.css";
-import SliderContainer from "./SliderContainer";
-import Button from "./Button";
+import { React, useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import useTimer from 'easytimer-react-hook'
+import './App.css'
+import './Sliders.css'
+import SliderContainer from './SliderContainer'
+import Button from './Button'
 
-function App() {
+const App = function () {
   // COUNTDOWN MEMORY: Used to send the current drag number to the countdown on drag end event
-  const [countdownMinOnes, setCountdownMinOnes] = useState(0);
-  const [countdownMinTens, setCountdownMinTens] = useState(0);
-  const [countdownSecOnes, setCountdownSecOnes] = useState(0);
-  const [countdownSecTens, setCountdownSecTens] = useState(0);
+  const [countdownMinOnes, setCountdownMinOnes] = useState(0)
+  const [countdownMinTens, setCountdownMinTens] = useState(0)
+  const [countdownSecOnes, setCountdownSecOnes] = useState(0)
+  const [countdownSecTens, setCountdownSecTens] = useState(0)
 
   // const [triggerReset, setTriggerReset] = useState(0)
-  const [mode, setMode] = useState("zero");
+  const [mode, setMode] = useState('zero')
 
   // COUNTDOWN TIMER
   const [countdownTimer, isCountdownDone] = useTimer({
