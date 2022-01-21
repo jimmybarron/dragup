@@ -7,7 +7,7 @@ const variants = {
   resetPosition: {
     scale: 1,
     y: 0,
-    backgroundColor: '#000000',
+    backgroundColor: '#00000000',
     color: '#ffffff'
   },
 
@@ -79,7 +79,7 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
               props.setMode('edit')
             }}
             onDrag={(event, info) => {
-              setControllerTime(clamp(Math.floor(Math.abs(((sliderHeight - info.point.y) / sliderHeight) * 10)), 0, props.maxNum))
+              setControllerTime(clamp(Math.floor(((sliderHeight - info.point.y) / sliderHeight) * 10), 0, props.maxNum))
             }}
             onDragEnd={(event, info) => {
               props.onDragEnd(props.id, controllerTime)

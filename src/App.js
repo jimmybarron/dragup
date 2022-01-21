@@ -5,6 +5,7 @@ import './App.css'
 import './Sliders.css'
 import SliderContainer from './SliderContainer'
 import Button from './Button'
+import propTypes from 'prop-types'
 
 const App = function () {
   // COUNTDOWN MEMORY: Used to send the current drag number to the countdown on drag end event
@@ -120,6 +121,7 @@ const App = function () {
       default:
         break;
     }
+    console.log(mode);
   }, [mode]);
 
   const sliderContainerProps = {
@@ -143,7 +145,7 @@ const App = function () {
           bottom: 0, 
           width: "100vw",
           height: "0",
-          backgroundColor: "#111",
+          backgroundColor: "#333333",
         }}
       />
 
@@ -187,8 +189,9 @@ const App = function () {
 
       <Button
         style={{ marginTop: "30px" }}
+        mode={mode}
         onClick={() => {
-          setMode("zero");
+          setMode('zero');
         }}
       >
         Reset
