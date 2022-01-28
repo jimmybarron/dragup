@@ -118,7 +118,8 @@ const SliderContainer = props => {
               position: 'relative',
               width: props.width,
               height: '75vh',
-              overflow: 'visible'
+              overflow: 'visible',
+              padding: '0 4px'
             }}
         >
 

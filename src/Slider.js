@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import './Slider.css'
 import { motion, useAnimation } from 'framer-motion'
 
-const variants = {
+const dragElVariants = {
   resetPosition: {
+    transition: { duration: 0.1 },
     scale: 1,
     y: 0,
     backgroundColor: '#00000000',
@@ -22,6 +23,12 @@ const variants = {
     color: '#ffffff',
     backgroundColor: '#000000',
     transition: { duration: 3 }
+  }
+}
+
+const timerNumVariants = {
+  fade: {
+    color: '#ffffff'
   }
 }
 
@@ -62,38 +69,42 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
   }, [props.mode])
 
   return (
-        <motion.div
-            className="dragEl"
-            style={{ zIndex: '10' }}
-            animate={controls}
-            variants={variants}
-            drag
-            dragMomentum={false}
-            dragConstraints={sliderContainerRef}
-            dragElastic={0.01}
-            onTapStart={(event, info) => {
-              controls.start('getBig')
-            }}
-            onDragStart={(event, info) => {
-              setSliderHeight(sliderContainerRef.current.offsetHeight)
-              props.setMode('edit')
-            }}
-            onDrag={(event, info) => {
-              setControllerTime(clamp(Math.floor(((sliderHeight - info.point.y) / sliderHeight) * 10), 0, props.maxNum))
-            }}
-            onDragEnd={(event, info) => {
-              props.onDragEnd(props.id, controllerTime)
-              controls.start('getBig')
-              props.setMode('delay')
-            }}
-        >
-            <div>
-                {props.mode === 'zero' && props.countdownTime}
-                {props.mode === 'edit' && controllerTime}
-                {props.mode === 'delay' && controllerTime}
-                {props.mode === 'count' && props.countdownTime}
-            </div>
+        <motion.div style={{ display: 'flex', justifyContent: 'center' }}>
 
+          <motion.div className='timerNum' animate={controls} variants={timerNumVariants}>
+            {props.mode === 'zero' && props.countdownTime}
+            {props.mode === 'edit' && controllerTime}
+            {props.mode === 'delay' && controllerTime}
+            {props.mode === 'count' && props.countdownTime}
+          </motion.div>
+
+          <motion.div
+              className="dragEl"
+              style={{ zIndex: '10' }}
+              animate={controls}
+              variants={dragElVariants}
+              drag
+              dragMomentum={false}
+              dragConstraints={sliderContainerRef}
+              dragElastic={0.01}
+              onTapStart={(event, info) => {
+                controls.start('getBig')
+              }}
+              onDragStart={(event, info) => {
+                setSliderHeight(sliderContainerRef.current.offsetHeight)
+                props.setMode('edit')
+              }}
+              onDrag={(event, info) => {
+                setControllerTime(clamp(Math.floor(((sliderHeight - info.point.y) / sliderHeight) * 10), 0, props.maxNum))
+              }}
+              onDragEnd={(event, info) => {
+                props.onDragEnd(props.id, controllerTime)
+                controls.start('getBig')
+                props.setMode('delay')
+              }}
+            >
+          </motion.div>
+  
         </motion.div>
   )
 })

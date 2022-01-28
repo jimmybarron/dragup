@@ -10,3 +10,11 @@
     font-size: 64px;
     font-weight: bold;
 }
+
+.timerNum {
+    display: flex;
+    position: absolute;
+    color: white;
+    font-size: 64px;
+    font-weight: bold;
+}
