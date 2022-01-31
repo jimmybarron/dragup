@@ -133,7 +133,7 @@ const SliderContainer = props => {
                   width: '70px',
                   overflow: 'visible',
                   position: 'absolute',
-                  marginTop: '4rem'
+                  marginTop: '2rem'
                 }}
                 variants={indicatorVariants}
                 animate={props.mode}

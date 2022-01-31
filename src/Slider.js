@@ -15,7 +15,7 @@ const dragElVariants = {
   
   editing: {
     scale: 1.2,
-    color: '#000000',
+    color: '#fff',
     backgroundColor: '#ffffff',
     border: '3px solid #fff',
     transition: { duration: 0.1 },
@@ -72,8 +72,6 @@ const Slider = React.forwardRef((props, sliderContainerRef) => {
 
   return (
         <motion.div style={{ display: 'flex', justifyContent: 'center' }}>
-
-          
 
           <motion.div
             className="dragEl"
