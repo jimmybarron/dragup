@@ -37,7 +37,7 @@ const SliderContainer = props => {
   const lineVariants = {
     zero: {
       opacity: 0,
-      pathLength: 0,
+      pathLength: 1,
       transition: {
         delay: 0.2
       }
@@ -130,6 +130,7 @@ const SliderContainer = props => {
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
                 style={{
+                  width: '70px',
                   overflow: 'visible',
                   position: 'absolute',
                   marginTop: '4rem'

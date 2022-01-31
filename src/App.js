@@ -107,7 +107,8 @@ const App = function () {
         break;
       case "delay":
         break;
-      case "count": // Compiles the time and starts the time
+      case "count":
+        // Compiles the time and starts the time
         let minutes = [countdownMinTens, countdownMinOnes].join("");
         let seconds = [countdownSecTens, countdownSecOnes].join("");
         countdownTimer.start({
@@ -116,6 +117,7 @@ const App = function () {
             seconds: seconds,
           },
         });
+        // Sets a number of total seconds for the progress meter to work off of
         setTotalSeconds(countdownTimer.getTotalTimeValues().seconds)
         break;
       default:

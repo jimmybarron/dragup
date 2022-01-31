@@ -5,14 +5,20 @@
     justify-content: center;
     height: 70px;
     width: 70px;
+    box-sizing: border-box;
     border-radius: 50%;
+    border: 3px solid #ffffffff;
     color: white;
     font-size: 64px;
     font-weight: bold;
 }
 
 .timerNum {
+    pointer-events: none;
     display: flex;
+    bottom: -1px;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     color: white;
     font-size: 64px;
