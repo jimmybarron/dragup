@@ -3,24 +3,20 @@ import { motion } from "framer-motion-3d";
 import { Canvas } from "react-three-fiber";
 import "./AnimatedBg.css";
 
-const Cube = (props) => {
+const Cube = ({ progressMeter, ...props }) => {
   return (
-    <motion.mesh
-      position={[0, -2, 0]}
-      animate={{ rotateY: props.progressMeter * 0.01 }}
-    >
-      <sphereBufferGeometry attach="geometry" args={[4, 4, 4]} />
+    <motion.mesh {...props} animate={{ rotateY: progressMeter * 0.1 }}>
+      <boxBufferGeometry attach="geometry" args={[1, 3, 1]} />
       <meshStandardMaterial attach="material" color="white" />
     </motion.mesh>
   );
 };
 
-const Scene = () => {
+const Scene = (props) => {
   return (
     <>
-      <ambientLight />
-      <pointLight position={[1, 1, 4]} intensity={1} />
-      <Cube />
+      <pointLight position={[1, 5, 5]} intensity={0.3} />
+      <Cube {...props} scale={[1, 1, 1]} position={[0, 1, 0]} />
     </>
   );
 };
@@ -28,7 +24,7 @@ const Scene = () => {
 const AnimatedBg = (props) => {
   return (
     <Canvas className="animatedBg" style={{ position: "absolute" }}>
-      <Scene />
+      <Scene {...props} />
     </Canvas>
   );
 };

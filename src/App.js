@@ -157,7 +157,7 @@ const App = function () {
         }}
       />
 
-      <AnimatedBg props={progressMeter} />
+      <AnimatedBg progressMeter={progressMeter} />
 
       <div className="sliders">
         <SliderContainer
