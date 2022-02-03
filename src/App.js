@@ -1,21 +1,26 @@
-import { React, useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import useTimer from 'easytimer-react-hook'
-import './App.css'
-import './Sliders.css'
-import SliderContainer from './SliderContainer'
-import Button from './Button'
-import propTypes from 'prop-types'
+import { React, useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import useTimer from "easytimer-react-hook";
+import "./App.css";
+import "./Sliders.css";
+import AnimatedBg from "./AnimatedBg";
+import SliderContainer from "./SliderContainer";
+import Button from "./Button";
+import propTypes from "prop-types";
 
 const App = function () {
+  // ====================================================== //
+  // ======================== TIMER ======================= //
+  // ====================================================== //
+
   // COUNTDOWN MEMORY: Used to send the current drag number to the countdown on drag end event
-  const [countdownMinOnes, setCountdownMinOnes] = useState(0)
-  const [countdownMinTens, setCountdownMinTens] = useState(0)
-  const [countdownSecOnes, setCountdownSecOnes] = useState(0)
-  const [countdownSecTens, setCountdownSecTens] = useState(0)
+  const [countdownMinOnes, setCountdownMinOnes] = useState(0);
+  const [countdownMinTens, setCountdownMinTens] = useState(0);
+  const [countdownSecOnes, setCountdownSecOnes] = useState(0);
+  const [countdownSecTens, setCountdownSecTens] = useState(0);
 
   // const [triggerReset, setTriggerReset] = useState(0)
-  const [mode, setMode] = useState('zero')
+  const [mode, setMode] = useState("zero");
 
   // COUNTDOWN TIMER
   const [countdownTimer, isCountdownDone] = useTimer({
@@ -24,13 +29,15 @@ const App = function () {
   });
 
   // PROGRESS METER
-  const [totalSeconds, setTotalSeconds] = useState(0)
-  const [progressMeter, setProgressMeter] = useState(0)
+  const [totalSeconds, setTotalSeconds] = useState(0);
+  const [progressMeter, setProgressMeter] = useState(0);
 
   useEffect(() => {
-    setProgressMeter(countdownTimer.getTotalTimeValues().seconds / totalSeconds * 100)
+    setProgressMeter(
+      (countdownTimer.getTotalTimeValues().seconds / totalSeconds) * 100
+    );
     console.log(progressMeter);
-  }, [countdownTimer.getTotalTimeValues().seconds])
+  }, [countdownTimer.getTotalTimeValues().seconds]);
 
   // DELAY TIMER
   const [delayTimer, isDelayTimerDone] = useTimer({
@@ -118,7 +125,7 @@ const App = function () {
           },
         });
         // Sets a number of total seconds for the progress meter to work off of
-        setTotalSeconds(countdownTimer.getTotalTimeValues().seconds)
+        setTotalSeconds(countdownTimer.getTotalTimeValues().seconds);
         break;
       default:
         break;
@@ -136,20 +143,21 @@ const App = function () {
 
   return (
     <div className="App">
-
       <motion.div
         className="progressBar"
         animate={{
-          height: `${progressMeter}%`
+          height: `${progressMeter}%`,
         }}
         style={{
           position: "absolute",
-          bottom: 0, 
+          bottom: 0,
           width: "100vw",
-          height: "0",
+          height: "50",
           backgroundColor: "#333333",
         }}
       />
+
+      <AnimatedBg props={progressMeter} />
 
       <div className="sliders">
         <SliderContainer
@@ -193,13 +201,13 @@ const App = function () {
         style={{ marginTop: "30px" }}
         mode={mode}
         onClick={() => {
-          setMode('zero');
+          setMode("zero");
         }}
       >
         Reset
       </Button>
     </div>
   );
-}
+};
 
 export default App;
