@@ -85,7 +85,7 @@ const Scene = ({ ...props }) => {
       <Suspense fallback={null}>
         <Spinner {...props} scale={[1, 1, 1]} position={[0, 1, 0]} />
       </Suspense>
-      <pointLight castShadow={true} position={vec3} intensity={intense} />
+      <pointLight position={vec3} intensity={intense} />
       <Floor position={[0, 0, 0]} />
     </>
   );
@@ -93,9 +93,9 @@ const Scene = ({ ...props }) => {
 
 const AnimatedBg = (props) => {
   return (
-    <Canvas shadowMap className="animatedBg" style={{ position: "absolute" }}>
+    <Canvas className="animatedBg" style={{ position: "absolute" }}>
       <Scene {...props} />
-      <OrbitControls enableZoom={true} enableRotate={false} />
+      <OrbitControls enableZoom={true} enableRotate={true} />
     </Canvas>
   );
 };
