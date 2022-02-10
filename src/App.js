@@ -6,7 +6,6 @@ import "./Sliders.css";
 import AnimatedBg from "./AnimatedBg";
 import SliderContainer from "./SliderContainer";
 import Button from "./Button";
-import propTypes from "prop-types";
 
 const App = function () {
   // ====================================================== //
@@ -157,7 +156,11 @@ const App = function () {
         }}
       />
 
-      <AnimatedBg progressMeter={progressMeter} />
+      <AnimatedBg
+        mode={mode}
+        progressMeter={progressMeter}
+        totalSeconds={totalSeconds}
+      />
 
       <div className="sliders">
         <SliderContainer

@@ -1,4 +1,5 @@
 .sliders {
-    display: flex;
-    align-items: flex-end;
+  display: flex;
+  align-items: flex-end;
+  /* pointer-events: none; */
 }
