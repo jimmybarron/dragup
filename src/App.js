@@ -35,7 +35,7 @@ const App = function () {
     setProgressMeter(
       (countdownTimer.getTotalTimeValues().seconds / totalSeconds) * 100
     );
-    console.log(progressMeter);
+    // console.log(progressMeter);
   }, [countdownTimer.getTotalTimeValues().seconds]);
 
   // DELAY TIMER

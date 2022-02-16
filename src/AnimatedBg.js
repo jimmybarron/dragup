@@ -1,10 +1,13 @@
-import "./AnimatedBg.css";
 import { useRef, Suspense } from "react";
-import { motion } from "framer-motion-3d";
-import { Canvas, useLoader, useLoaderoooooo } from "react-three-fiber";
-import { TextureLoader } from "three";
+import { Canvas, useLoader, useFrame } from "react-three-fiber";
+import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useGLTF } from "@react-three/drei";
+import { motion } from "framer-motion-3d";
+import { MotionConfig } from "framer-motion";
 import { useControls } from "leva";
+import "./AnimatedBg.css";
 import imageUrl from "./swirl.jpg";
 
 const Floor = () => {
@@ -21,14 +24,14 @@ const Floor = () => {
 };
 
 const Spinner = ({ progressMeter, mode, totalSeconds, ...props }) => {
+  useFrame(({ clock }) => {
+    if (mode === "count") {
+      progressBox.current.rotation.y = clock.getElapsedTime();
+    }
+    // progressBox.current.scale.y = progressMeter / 100;
+  });
   const progressBox = useRef();
-  const texture = useLoader(TextureLoader, imageUrl);
-  // useFrame(({ clock }) => {
-  //   if (mode === "count") {
-  //     progressBox.current.rotation.y = clock.getElapsedTime();
-  //   }
-  //   // progressBox.current.scale.y = progressMeter / 100;
-  // });
+  const texture = useLoader(THREE.TextureLoader, imageUrl);
 
   const spinnerAnim = {
     count: {
@@ -36,7 +39,7 @@ const Spinner = ({ progressMeter, mode, totalSeconds, ...props }) => {
         duration: 2,
         repeat: Infinity,
       },
-      rotateY: 4,
+      rotateY: 1,
       opacity: 1,
     },
     zero: {
@@ -71,11 +74,74 @@ const Spinner = ({ progressMeter, mode, totalSeconds, ...props }) => {
   );
 };
 
-const Scene = ({ ...props }) => {
-  const { vec3, intense } = useControls({
-    vec3: [0, -1, 0.6],
+const Model = ({ mode, ...props }) => {
+  const { vec3, size } = useControls({
+    vec3: [0, -2, 3.6],
+    size: {
+      value: 0.4,
+      min: 0,
+      max: 10,
+      step: 0.1,
+    },
+  });
+
+  const variants = {
+    zero: {
+      x: 0,
+      y: -2,
+      z: 0,
+    },
+    delay: {
+      transition: {
+        duration: 2,
+      },
+    },
+    count: {
+      type: "spring",
+      y: 0,
+      scale: 2,
+    },
+  };
+
+  const ref = useRef();
+  const gltf = useLoader(GLTFLoader, "/animated_moon/scene.gltf");
+  const { nodes, materials } = useGLTF("/animated_moon/scene.gltf");
+
+  return (
+    <group
+      ref={ref}
+      variants={variants}
+      animate={mode}
+      initial="zero"
+      object={gltf.scene}
+      scale={size}
+      dispose={null}
+      size={size}
+      position={vec3}
+      {...props}
+    >
+      <group rotation={[-Math.PI / 2, 0, 0]}>
+        <group rotation={[Math.PI / 2, 0, 0]}>
+          <group name="8k_moon_2" rotation={[-Math.PI, 0, -Math.PI]}>
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Object_4.geometry}
+              material={materials["8k_moon"]}
+            />
+          </group>
+        </group>
+      </group>
+    </group>
+  );
+
+  useGLTF.preload("/scene.gltf");
+};
+
+const Scene = (props) => {
+  const { intense } = useControls({
     intense: {
-      value: 0.7,
+      value: 0.3,
       step: 0.1,
     },
   });
@@ -83,10 +149,11 @@ const Scene = ({ ...props }) => {
   return (
     <>
       <Suspense fallback={null}>
-        <Spinner {...props} scale={[1, 1, 1]} position={[0, 1, 0]} />
+        {/* <Spinner {...props} scale={[1, 1, 1]} position={[0, 1, 0]} /> */}
+        <Model {...props} />
+        <pointLight position={[0, -1, 0.6]} intensity={intense} />
+        <Floor position={[0, 0, 0]} />
       </Suspense>
-      <pointLight position={vec3} intensity={intense} />
-      <Floor position={[0, 0, 0]} />
     </>
   );
 };
