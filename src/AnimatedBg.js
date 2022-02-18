@@ -75,31 +75,28 @@ const Spinner = ({ progressMeter, mode, totalSeconds, ...props }) => {
 };
 
 const Model = ({ mode, ...props }) => {
-  const { vec3, size } = useControls({
-    vec3: [0, -2, 3.6],
-    size: {
-      value: 0.4,
-      min: 0,
-      max: 10,
-      step: 0.1,
-    },
-  });
+  // const { vec3, size } = useControls({
+  //   vec3: [0, -2, 3.6],
+  //   size: {
+  //     value: 0.4,
+  //     min: 0,
+  //     max: 10,
+  //     step: 0.1,
+  //   },
+  // });
 
   const variants = {
     zero: {
+      opacity: 0,
       x: 0,
       y: -2,
       z: 0,
-    },
-    delay: {
-      transition: {
-        duration: 2,
-      },
+      scale: [1, 1, 1],
     },
     count: {
-      type: "spring",
-      y: 0,
-      scale: 2,
+      opacity: 1,
+      y: 2,
+      scale: [4, 4, 4],
     },
   };
 
@@ -107,23 +104,47 @@ const Model = ({ mode, ...props }) => {
   const gltf = useLoader(GLTFLoader, "/animated_moon/scene.gltf");
   const { nodes, materials } = useGLTF("/animated_moon/scene.gltf");
 
+  useGLTF.preload("/scene.gltf");
+
   return (
     <group
-      ref={ref}
-      variants={variants}
-      animate={mode}
-      initial="zero"
-      object={gltf.scene}
-      scale={size}
-      dispose={null}
-      size={size}
-      position={vec3}
+      // position={vec3}
       {...props}
     >
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group name="8k_moon_2" rotation={[-Math.PI, 0, -Math.PI]}>
-            <mesh
+            <motion.mesh
+              variants={{
+                zero: {
+                  opacity: 0,
+                  x: 0,
+                  y: -2,
+                  z: 0,
+                  scale: 1,
+                  rotateX: -10,
+                  transition: {
+                    duration: 1,
+                  },
+                },
+                delay: {
+                  opacity: 1,
+                },
+                count: {
+                  y: 2,
+                  rotateY: 20,
+                  scale: 4,
+                },
+              }}
+              initial="zero"
+              animate={mode}
+              transition={{
+                ease: "easeOut",
+                duration: 5,
+              }}
+              dispose={null}
+              ref={ref}
+              object={gltf.scene}
               castShadow
               receiveShadow
               geometry={nodes.Object_4.geometry}
@@ -134,24 +155,22 @@ const Model = ({ mode, ...props }) => {
       </group>
     </group>
   );
-
-  useGLTF.preload("/scene.gltf");
 };
 
 const Scene = (props) => {
-  const { intense } = useControls({
-    intense: {
-      value: 0.3,
-      step: 0.1,
-    },
-  });
+  // const { intense } = useControls({
+  //   intense: {
+  //     value: 0.3,
+  //     step: 0.1,
+  //   },
+  // });
 
   return (
     <>
       <Suspense fallback={null}>
         {/* <Spinner {...props} scale={[1, 1, 1]} position={[0, 1, 0]} /> */}
         <Model {...props} />
-        <pointLight position={[0, -1, 0.6]} intensity={intense} />
+        <pointLight position={[0, -1, 0.6]} intensity={0.3} />
         <Floor position={[0, 0, 0]} />
       </Suspense>
     </>
