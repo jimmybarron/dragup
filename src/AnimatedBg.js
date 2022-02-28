@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useGLTF } from "@react-three/drei";
-import { motion } from "framer-motion-3d";
+import { motion as motion3d } from "framer-motion-3d";
 import { MotionConfig } from "framer-motion";
 import { useControls } from "leva";
 import "./AnimatedBg.css";
@@ -12,14 +12,14 @@ import imageUrl from "./swirl.jpg";
 
 const Floor = () => {
   return (
-    <motion.mesh
+    <motion3d.mesh
       receiveShadow={true}
       position={[0, -1.5, 0]}
       rotation={[-1.2, 0, 0]}
     >
       <planeBufferGeometry attach="geometry" args={[3.1, 3.1]} />
       <meshStandardMaterial attach="material" color="#fff" />
-    </motion.mesh>
+    </motion3d.mesh>
   );
 };
 
@@ -53,7 +53,7 @@ const Spinner = ({ progressMeter, mode, totalSeconds, ...props }) => {
   };
 
   return (
-    <motion.mesh
+    <motion3d.mesh
       ref={progressBox}
       castShadow={true}
       receiveShadow={true}
@@ -70,7 +70,7 @@ const Spinner = ({ progressMeter, mode, totalSeconds, ...props }) => {
         metalness={1.5}
         color="white"
       />
-    </motion.mesh>
+    </motion3d.mesh>
   );
 };
 
@@ -84,21 +84,6 @@ const Model = ({ mode, ...props }) => {
   //     step: 0.1,
   //   },
   // });
-
-  const variants = {
-    zero: {
-      opacity: 0,
-      x: 0,
-      y: -2,
-      z: 0,
-      scale: [1, 1, 1],
-    },
-    count: {
-      opacity: 1,
-      y: 2,
-      scale: [4, 4, 4],
-    },
-  };
 
   const ref = useRef();
   const gltf = useLoader(GLTFLoader, "/animated_moon/scene.gltf");
@@ -114,7 +99,7 @@ const Model = ({ mode, ...props }) => {
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group name="8k_moon_2" rotation={[-Math.PI, 0, -Math.PI]}>
-            <motion.mesh
+            <motion3d.mesh
               variants={{
                 zero: {
                   opacity: 0,
@@ -123,9 +108,6 @@ const Model = ({ mode, ...props }) => {
                   z: 0,
                   scale: 1,
                   rotateX: -10,
-                  transition: {
-                    duration: 1,
-                  },
                 },
                 delay: {
                   opacity: 1,
@@ -136,11 +118,10 @@ const Model = ({ mode, ...props }) => {
                   scale: 4,
                 },
               }}
-              initial="zero"
               animate={mode}
               transition={{
                 ease: "easeOut",
-                duration: 5,
+                duration: 2,
               }}
               dispose={null}
               ref={ref}
@@ -157,7 +138,7 @@ const Model = ({ mode, ...props }) => {
   );
 };
 
-const Scene = (props) => {
+const Scene = ({ mode, ...props }) => {
   // const { intense } = useControls({
   //   intense: {
   //     value: 0.3,
@@ -170,7 +151,19 @@ const Scene = (props) => {
       <Suspense fallback={null}>
         {/* <Spinner {...props} scale={[1, 1, 1]} position={[0, 1, 0]} /> */}
         <Model {...props} />
-        <pointLight position={[0, -1, 0.6]} intensity={0.3} />
+        <motion3d.pointLight
+          position={[0, -1, 0.6]}
+          intensity={0}
+          variants={{
+            zero: {
+              intensity: 0,
+            },
+            count: {
+              intensity: 0.3,
+            },
+          }}
+          animate={mode}
+        />
         <Floor position={[0, 0, 0]} />
       </Suspense>
     </>
