@@ -35,7 +35,6 @@ const App = function () {
     setProgressMeter(
       (countdownTimer.getTotalTimeValues().seconds / totalSeconds) * 100
     );
-    // console.log(progressMeter);
   }, [countdownTimer.getTotalTimeValues().seconds]);
 
   // DELAY TIMER
@@ -160,6 +159,8 @@ const App = function () {
         mode={mode}
         progressMeter={progressMeter}
         totalSeconds={totalSeconds}
+        isCountdownDone={isCountdownDone}
+        secondsRemaining={countdownTimer.getTotalTimeValues().seconds}
       />
 
       <div className="sliders">
