@@ -120,10 +120,10 @@ const Model = (props) => {
   });
 
   // Add rotation to moon
-  // useFrame(({ clock }) => {
-  //   const a = clock.getElapsedTime();
-  //   myMesh.current.rotation.x = a;
-  // });
+  useFrame(({ clock }) => {
+    const a = clock.getElapsedTime() / 12;
+    ref.current.rotation.y = a;
+  });
 
   return (
     <a.mesh
