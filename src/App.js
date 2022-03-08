@@ -32,6 +32,9 @@ const App = function () {
   const [progressMeter, setProgressMeter] = useState(0);
 
   useEffect(() => {
+    if (countdownTimer.getTotalTimeValues().seconds === 0) {
+      return;
+    }
     setProgressMeter(
       (countdownTimer.getTotalTimeValues().seconds / totalSeconds) * 100
     );

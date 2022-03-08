@@ -97,8 +97,6 @@ const Model = (props) => {
     const moonZPos = ((100 - props.progressMeter) / 100) * 4;
     const moonYPos = -((100 - props.progressMeter) / 100) / 4;
     switch (mode) {
-      // case "zero":
-      //   return [0, 3, 0];
       case "count":
         return [0, moonYPos, moonZPos];
       default:
@@ -107,7 +105,6 @@ const Model = (props) => {
   };
 
   const moonAnim = useSpring({
-    // delay: 1500,
     config: {
       mass: 1,
       tension: 170,
@@ -120,7 +117,6 @@ const Model = (props) => {
         : props.mode === "zero"
         ? [1.8, 1.8, 1.8]
         : [0, 0, 0],
-    // to: [{ scale: props.mode === "count" ? [1.8, 1.8, 1.8] : [0, 0, 0] }],
   });
 
   // Add rotation to moon
