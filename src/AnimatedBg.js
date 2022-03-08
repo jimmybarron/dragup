@@ -10,6 +10,7 @@ import { useControls } from "leva";
 import "./AnimatedBg.css";
 import imageUrl from "./swirl.jpg";
 import { useSpring, a, config } from "@react-spring/three";
+import { useEffect } from "react/cjs/react.production.min";
 
 const Floor = () => {
   return (
@@ -93,59 +94,40 @@ const Model = (props) => {
   useGLTF.preload("/scene.gltf");
 
   const moonPosition = ({ mode, ...props }) => {
-    // console.log(
-    //   (props.totalSeconds - props.secondsRemaining) / props.totalSeconds
-    // );
-    console.log(((100 - props.progressMeter) / 100) * 4);
-    const moonZ = ((100 - props.progressMeter) / 100) * 4;
+    const moonZPos = ((100 - props.progressMeter) / 100) * 4;
+    const moonYPos = -((100 - props.progressMeter) / 100) / 4;
     switch (mode) {
       case "zero":
         return [0, 3, 0];
       case "count":
-        return [0, -0.7, moonZ];
+        return [0, moonYPos, moonZPos];
+      default:
+        return [0, 1, 0];
     }
-    return [0, 1, 0];
   };
 
   const moonAnim = useSpring({
     config: {
-      mass: 0.3,
+      mass: 1,
+      tension: 170,
+      friction: 100,
     },
-    // position: props.mode === "count" ? [0, 1, 0] : [0, 3, 0],
     position: moonPosition(props),
-    scale: props.mode === "count" ? [3, 3, 3] : [0, 0, 0],
+    scale: props.mode === "count" ? [1.8, 1.8, 1.8] : [0, 0, 0],
   });
 
-  // console.log(props.isCountdownDone)
+  // Add rotation to moon
+  // useFrame(({ clock }) => {
+  //   const a = clock.getElapsedTime();
+  //   myMesh.current.rotation.x = a;
+  // });
 
+  // Use the countdown done method to fade the light out or something
+  // console.log(props.isCountdownDone)
   return (
     <a.mesh
       position={moonAnim.position}
       scale={moonAnim.scale}
-      // animate={mode}
-      // variants={{
-      //   zero: {
-      //     opacity: 0,
-      //     x: 0,
-      //     y: -2,
-      //     z: 0,
-      //     scale: 1,
-      //     rotateX: -10,
-      //   },
-      //   delay: {
-      //     opacity: 1,
-      //   },
-      //   count: {
-      //     y: 2,
-      //     rotateY: 20,
-      //     scale: 10,
-      //     transition: {
-      //       scale: {
-      //         duration: 2,
-      //       },
-      //     },
-      //   },
-      // }}
       dispose={null}
       ref={ref}
       object={gltf.scene}
@@ -157,6 +139,28 @@ const Model = (props) => {
   );
 };
 
+const MoonLight = (props) => {
+  const lightPosition = (props) => {
+    if (props.mode === "count") {
+      return [0, 10, 100];
+    }
+    return [0, 10, -100];
+  };
+
+  const lightAnim = useSpring({
+    config: {
+      duration: 2000,
+    },
+    position: lightPosition(props),
+  });
+
+  const lightRef = useRef();
+
+  return (
+    <a.pointLight ref={lightRef} position={lightAnim.position} intensity={1} />
+  );
+};
+
 const Scene = (props) => {
   // const { intense } = useControls({
   //   intense: {
@@ -164,37 +168,13 @@ const Scene = (props) => {
   //     step: 0.1,
   //   },
   // });
+  // console.log(-(100 - props.progressMeter));
+
   return (
     <>
       <Suspense fallback={null}>
-        {/* <Spinner {...props} scale={[1, 1, 1]} position={[0, 1, 0]} /> */}
         <Model {...props} />
-        <motion3d.pointLight
-          position={[0, 1, 10]}
-          intensity={1}
-          // animate={props.mode}
-          variants={{
-            zero: {
-              intensity: 0,
-            },
-            edit: {
-              intensity: 0.5,
-              transition: {
-                duration: 4,
-              },
-            },
-            count: {
-              intensity: 1,
-              y: 20,
-              transition: {
-                duration: 4,
-                ease: "linear",
-                repeat: Infinity,
-              },
-            },
-          }}
-        />
-        {/* <Floor position={[0, 0, 0]} /> */}
+        <MoonLight {...props} />
       </Suspense>
     </>
   );
@@ -204,7 +184,7 @@ const AnimatedBg = (props) => {
   return (
     <Canvas {...props} className="animatedBg" style={{ position: "absolute" }}>
       <Scene {...props} />
-      <OrbitControls enableZoom={true} enableRotate={true} />
+      {/* <OrbitControls enableZoom={true} enableRotate={true} /> */}
     </Canvas>
   );
 };
