@@ -97,8 +97,8 @@ const Model = (props) => {
     const moonZPos = ((100 - props.progressMeter) / 100) * 4;
     const moonYPos = -((100 - props.progressMeter) / 100) / 4;
     switch (mode) {
-      case "zero":
-        return [0, 3, 0];
+      // case "zero":
+      //   return [0, 3, 0];
       case "count":
         return [0, moonYPos, moonZPos];
       default:
@@ -107,13 +107,20 @@ const Model = (props) => {
   };
 
   const moonAnim = useSpring({
+    // delay: 1500,
     config: {
       mass: 1,
       tension: 170,
       friction: 100,
     },
     position: moonPosition(props),
-    scale: props.mode === "count" ? [1.8, 1.8, 1.8] : [0, 0, 0],
+    scale:
+      props.mode === "count"
+        ? [1.8, 1.8, 1.8]
+        : props.mode === "zero"
+        ? [1.8, 1.8, 1.8]
+        : [0, 0, 0],
+    // to: [{ scale: props.mode === "count" ? [1.8, 1.8, 1.8] : [0, 0, 0] }],
   });
 
   // Add rotation to moon
@@ -122,8 +129,6 @@ const Model = (props) => {
   //   myMesh.current.rotation.x = a;
   // });
 
-  // Use the countdown done method to fade the light out or something
-  // console.log(props.isCountdownDone)
   return (
     <a.mesh
       position={moonAnim.position}
@@ -140,24 +145,34 @@ const Model = (props) => {
 };
 
 const MoonLight = (props) => {
+  const rangeScale = (number, inMin, inMax, outMin, outMax) => {
+    return ((number - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+  };
+
   const lightPosition = (props) => {
     if (props.mode === "count") {
-      return [0, 10, 100];
+      // Last two arguements passed to rangeScale will adjust the z position in space
+      return [0, 10, rangeScale(props.progressMeter, 0, 100, -20, 100)];
     }
     return [0, 10, -100];
   };
 
   const lightAnim = useSpring({
     config: {
-      duration: 2000,
+      duration: 1000,
     },
     position: lightPosition(props),
+    intensity: props.mode === "count" ? 1 : 0,
   });
 
   const lightRef = useRef();
 
   return (
-    <a.pointLight ref={lightRef} position={lightAnim.position} intensity={1} />
+    <a.pointLight
+      ref={lightRef}
+      position={lightAnim.position}
+      intensity={lightAnim.intensity}
+    />
   );
 };
 
@@ -168,7 +183,6 @@ const Scene = (props) => {
   //     step: 0.1,
   //   },
   // });
-  // console.log(-(100 - props.progressMeter));
 
   return (
     <>

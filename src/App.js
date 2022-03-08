@@ -77,6 +77,13 @@ const App = function () {
     }
   }, [isDelayTimerDone]);
 
+  // COUNT MODE TO ZERO MODE
+  useEffect(() => {
+    if (isCountdownDone === true) {
+      setMode("zero");
+    }
+  }, [isCountdownDone]);
+
   // RESET
   const handleReset = () => {
     // Clear countdown memory
@@ -141,7 +148,7 @@ const App = function () {
 
   return (
     <div className="App">
-      <motion.div
+      {/* <motion.div
         className="progressBar"
         animate={{
           height: `${progressMeter}%`,
@@ -153,7 +160,7 @@ const App = function () {
           height: "50",
           backgroundColor: "#333333",
         }}
-      />
+      /> */}
 
       <AnimatedBg
         mode={mode}
