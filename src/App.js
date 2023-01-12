@@ -1,11 +1,12 @@
 import { React, useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import useTimer from "easytimer-react-hook";
 import "./App.css";
 import "./Sliders.css";
 import AnimatedBg from "./AnimatedBg";
 import SliderContainer from "./SliderContainer";
 import Button from "./Button";
+import Instructions from "./Instructions";
 
 const App = function () {
   // ====================================================== //
@@ -20,6 +21,9 @@ const App = function () {
 
   // const [triggerReset, setTriggerReset] = useState(0)
   const [mode, setMode] = useState("zero");
+
+  // State for showing instruction on first load
+  const [showInstructions, setShowInstructions] = useState(true);
 
   // COUNTDOWN TIMER
   const [countdownTimer, isCountdownDone] = useTimer({
@@ -116,6 +120,7 @@ const App = function () {
         handleReset();
         break;
       case "edit":
+        setShowInstructions(false);
         if (isDelayTimerDone) {
           handleReset();
         }
@@ -220,6 +225,10 @@ const App = function () {
       >
         Reset
       </Button>
+
+      <AnimatePresence>
+        {showInstructions === true && <Instructions />}
+      </AnimatePresence>
     </div>
   );
 };

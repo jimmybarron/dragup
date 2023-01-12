@@ -12,69 +12,69 @@ import imageUrl from "./swirl.jpg";
 import { useSpring, a, config } from "@react-spring/three";
 import { useEffect } from "react/cjs/react.production.min";
 
-const Floor = () => {
-  return (
-    <motion3d.mesh
-      receiveShadow={true}
-      position={[0, -1.5, 0]}
-      rotation={[-1.2, 0, 0]}
-    >
-      <planeBufferGeometry attach="geometry" args={[3.1, 3.1]} />
-      <meshStandardMaterial attach="material" color="#fff" />
-    </motion3d.mesh>
-  );
-};
+// const Floor = () => {
+//   return (
+//     <motion3d.mesh
+//       receiveShadow={true}
+//       position={[0, -1.5, 0]}
+//       rotation={[-1.2, 0, 0]}
+//     >
+//       <planeBufferGeometry attach="geometry" args={[3.1, 3.1]} />
+//       <meshStandardMaterial attach="material" color="#fff" />
+//     </motion3d.mesh>
+//   );
+// };
 
-const Spinner = ({ progressMeter, mode, totalSeconds, ...props }) => {
-  useFrame(({ clock }) => {
-    if (mode === "count") {
-      progressBox.current.rotation.y = clock.getElapsedTime();
-    }
-    // progressBox.current.scale.y = progressMeter / 100;
-  });
-  const progressBox = useRef();
-  const texture = useLoader(THREE.TextureLoader, imageUrl);
+// const Spinner = ({ progressMeter, mode, totalSeconds, ...props }) => {
+//   useFrame(({ clock }) => {
+//     if (mode === "count") {
+//       progressBox.current.rotation.y = clock.getElapsedTime();
+//     }
+//     // progressBox.current.scale.y = progressMeter / 100;
+//   });
+//   const progressBox = useRef();
+//   const texture = useLoader(THREE.TextureLoader, imageUrl);
 
-  const spinnerAnim = {
-    count: {
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-      },
-      rotateY: 1,
-      opacity: 1,
-    },
-    zero: {
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-      },
-      rotateY: 0,
-      opacity: 0,
-    },
-  };
+//   const spinnerAnim = {
+//     count: {
+//       transition: {
+//         duration: 2,
+//         repeat: Infinity,
+//       },
+//       rotateY: 1,
+//       opacity: 1,
+//     },
+//     zero: {
+//       transition: {
+//         duration: 2,
+//         repeat: Infinity,
+//       },
+//       rotateY: 0,
+//       opacity: 0,
+//     },
+//   };
 
-  return (
-    <motion3d.mesh
-      ref={progressBox}
-      castShadow={true}
-      receiveShadow={true}
-      initial={{ opacity: 0 }}
-      variants={spinnerAnim}
-      animate={mode}
-      {...props}
-    >
-      <icosahedronGeometry attach="geometry" args={[1, 0]} />
-      <meshPhysicalMaterial
-        attach="material"
-        map={texture}
-        roughness={1}
-        metalness={1.5}
-        color="white"
-      />
-    </motion3d.mesh>
-  );
-};
+//   return (
+//     <motion3d.mesh
+//       ref={progressBox}
+//       castShadow={true}
+//       receiveShadow={true}
+//       initial={{ opacity: 0 }}
+//       variants={spinnerAnim}
+//       animate={mode}
+//       {...props}
+//     >
+//       <icosahedronGeometry attach="geometry" args={[1, 0]} />
+//       <meshPhysicalMaterial
+//         attach="material"
+//         map={texture}
+//         roughness={1}
+//         metalness={1.5}
+//         color="white"
+//       />
+//     </motion3d.mesh>
+//   );
+// };
 
 const Model = (props) => {
   // const { vec3, size } = useControls({

@@ -1,0 +1,8 @@
+.instructions {
+  position: relative;
+  bottom: 300px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  line-height: 22px;
+}
