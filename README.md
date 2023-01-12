@@ -1,6 +1,6 @@
 <a href="https://dragtime.netlify.app/"><img src="https://raw.githubusercontent.com/jimmybarron/dragtime/master/public/icon.png" width="300px"></a>
 
-# Dragtime
+# Dragup - A Quicker Timer
 
 **To start, just drag any of the zeros up to reveal the controls, and let go at the desired number to set it.**<br>
 [Check out the timer here](https://dragtime.netlify.app/)<br>
