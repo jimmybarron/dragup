@@ -25,7 +25,8 @@ const Instructions = () => {
           repeatDelay: 0,
         }}
       >
-        ⬆<br />
+        ↑
+        <br />
       </motion.div>
       <div>
         Drag up
